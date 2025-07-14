@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet" />
-	<link rel="icon" type="image/png" sizes="32x32" href="./image/hub_logo.png" />  
-	<title>SungHyun's Project Hub</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="./image/hub_logo.png" />  
+  <title>SungHyun's Project Hub</title>
   <style>
     :root {
       --bg-color: #f9f9f9;
@@ -36,7 +36,6 @@
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      
     }
 
     header {
@@ -45,7 +44,6 @@
       text-align: center;
       position: relative;
       font-family: 'Orbitron', sans-serif;
-      
     }
 
     header h1 {
@@ -54,17 +52,17 @@
     }
 
     #darkToggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: 2px solid var(--text-color);
-  color: var(--text-color);
-  padding: 6px 12px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 0.9em;
-}
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: 2px solid var(--text-color);
+      color: var(--text-color);
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
 
     .card-container {
       max-width: 1100px;
@@ -118,13 +116,14 @@
       text-decoration: none;
       border-radius: 8px;
       font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     }
     
     .card a:hover {
-  background-color: #0056b3; /* 어두운 파란색으로 변경 예시 */
-  transform: scale(1.05); /* 약간 확대 */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
+      background-color: #0056b3;
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
 
     footer {
       text-align: center;
@@ -135,7 +134,7 @@
       font-family: 'Orbitron', sans-serif;
     }
 
-    /* ✅ 모바일 대응 */
+    /* 모바일 대응 */
     @media (max-width: 600px) {
       .card {
         width: 90%;
@@ -148,22 +147,17 @@
 
       header h1 {
         font-size: 1.0em;
-        margin-top:6px;
+        margin-top: 6px;
       }
 
       #darkToggle {
-    #darkToggle {
-    padding: 6px 12px;
-    font-size: 1.4em;
-    width: 48px;
-    height: 38px;
-    line-height: 1;
-    text-align: center;
-    color: var(--text-color); /* 투명색 대신 원래 색 유지 */
-  }
-
-      #darkToggle {
-        color: transparent;
+        padding: 6px 12px;
+        font-size: 1.4em;
+        width: 48px;
+        height: 38px;
+        line-height: 1;
+        text-align: center;
+        color: var(--text-color);
         border-color: var(--text-color);
       }
     }
@@ -217,29 +211,53 @@
   </footer>
 
   <script>
-  const toggleBtn = document.getElementById('darkToggle');
+    const toggleBtn = document.getElementById('darkToggle');
 
-  function updateToggleText() {
-    const isDark = document.body.classList.contains('dark');
-    if (window.innerWidth <= 600) {
-      // 모바일: 이모지만 표시
-      toggleBtn.textContent = isDark ? '☀️' : '🌙';
-    } else {
-      // PC: 텍스트 + 이모지
-      toggleBtn.textContent = isDark ? '☀️ 라이트모드' : '🌙 다크모드';
+    // 로컬스토리지에서 다크모드 상태 읽기
+    function loadDarkMode() {
+      return localStorage.getItem('darkMode') === 'true';
     }
-  }
 
-  toggleBtn.addEventListener('click', () => {
-    document.body.classList.toggle('dark');
-    updateToggleText();
-  });
+    // 다크모드 상태 저장
+    function saveDarkMode(isDark) {
+      localStorage.setItem('darkMode', isDark);
+    }
 
-  // 화면 크기 변경 시 버튼 텍스트도 업데이트
-  window.addEventListener('resize', updateToggleText);
+    // 다크모드 적용/해제
+    function applyDarkMode(isDark) {
+      if (isDark) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
+    }
 
-  // 초기 상태 설정
-  updateToggleText();
+    // 버튼 텍스트 업데이트
+    function updateToggleText() {
+      const isDark = document.body.classList.contains('dark');
+      if (window.innerWidth <= 600) {
+        toggleBtn.textContent = isDark ? '☀️' : '🌙';
+      } else {
+        toggleBtn.textContent = isDark ? '☀️ 라이트모드' : '🌙 다크모드';
+      }
+    }
+
+    // 버튼 클릭 시 다크모드 토글 및 저장
+    toggleBtn.addEventListener('click', () => {
+      const isDark = document.body.classList.toggle('dark');
+      saveDarkMode(isDark);
+      updateToggleText();
+    });
+
+    // 페이지 로드 시 저장된 다크모드 상태 불러오기
+    window.addEventListener('DOMContentLoaded', () => {
+      const isDark = loadDarkMode();
+      applyDarkMode(isDark);
+      updateToggleText();
+    });
+
+    // 창 크기 변경 시 버튼 텍스트 업데이트
+    window.addEventListener('resize', updateToggleText);
   </script>
 
 </body>
