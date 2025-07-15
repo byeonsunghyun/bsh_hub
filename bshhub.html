@@ -4,53 +4,46 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet" />
-  <link rel="icon" type="image/png" sizes="32x32" href="./image/hub_logo.png" />  
+  <link rel="icon" type="image/png" sizes="32x32" href="./image/hub_logo.png" />
   <title>SungHyun's Project Hub</title>
   <style>
     :root {
       --bg-color: #f9f9f9;
       --text-color: #222;
       --card-bg: #fff;
-      --btn-bg: #007bff;
-      --btn-text: #fff;
     }
-
     body.dark {
       --bg-color: #121212;
       --text-color: #f0f0f0;
       --card-bg: #1e1e1e;
-      --btn-bg: #00aaff;
-      --btn-text: #fff;
     }
-
     * {
       box-sizing: border-box;
       transition: all 0.3s ease;
     }
-
+    html, body {
+      height: 100%;
+      margin: 0; padding: 0;
+    }
     body {
-      margin: 0;
-      padding: 0;
       background: var(--bg-color);
       color: var(--text-color);
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
+      font-family: 'Orbitron', sans-serif;
+      user-select: none; /* 드래그 시 선택 안 되도록 */
+      overflow-x: hidden; /* 수평 스크롤 안 생기게 */
     }
-
     header {
       padding: 20px;
-      padding-bottom: 10px;
       text-align: center;
       position: relative;
-      font-family: 'Orbitron', sans-serif;
+      border-bottom: 1px solid #ccc;
     }
-
     header h1 {
       font-size: 2em;
       margin: 0;
     }
-
     #darkToggle {
       position: absolute;
       top: 20px;
@@ -63,102 +56,99 @@
       cursor: pointer;
       font-size: 0.9em;
     }
-
-    .card-container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 20px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
+    main {
       flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      overflow: hidden;
     }
-
-    .card {
+    .slider-wrapper {
+      width: 100%;
+      max-width: 1120px;
+      overflow: hidden;
+      cursor: grab;
+      user-select: none;
+      position: relative;
+      padding: 10px 0;
+    }
+    .slider-container {
+      display: grid;
+      grid-auto-flow: column;
+      grid-template-rows: repeat(2, auto);
+      gap: 20px;
+      width: max-content;
+      transition: none; /* 트랜지션은 직접 JS에서 토글 */
+    }
+    a.card {
       background: var(--card-bg);
       border: 1px solid #ccc;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-      width: 300px;
-      overflow: hidden;
+      width: 280px;
       display: flex;
       flex-direction: column;
-      align-items: center;
       padding: 16px;
       text-align: center;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      user-select: none;
     }
-
+    a.card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+    }
     .card img {
-      width: 300px;
-      height: 180px;
+      width: 100%;
+      height: 160px;
       object-fit: cover;
       border-radius: 10px;
       margin-bottom: 12px;
     }
-
     .card h2 {
       margin: 10px 0 6px;
-      font-size: 1.3em;
+      font-size: 1.2em;
     }
-
     .card p {
-      font-size: 0.95em;
+      font-size: 0.9em;
       color: var(--text-color);
     }
-
-    .card a {
-      margin-top: 12px;
-      display: inline-block;
-      padding: 10px 20px;
-      background: var(--btn-bg);
-      color: var(--btn-text);
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .card a:hover {
-      background-color: #0056b3;
-      transform: scale(1.05);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
     footer {
       text-align: center;
       padding: 20px;
       font-size: 0.9em;
       background: transparent;
       color: var(--text-color);
-      font-family: 'Orbitron', sans-serif;
+      border-top: 1px solid #ccc;
     }
-
-    /* 모바일 대응 */
-    @media (max-width: 600px) {
-      .card {
-        width: 90%;
-      }
-
-      .card img {
+    @media (max-width: 768px) {
+      .slider-container {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
         width: 100%;
-        height: 180px;
       }
-
+      a.card {
+        width: 90%;
+        margin-bottom: 16px;
+      }
+      .card img {
+        height: 160px;
+      }
       header h1 {
         font-size: 1.0em;
         margin-top: 6px;
       }
-
       #darkToggle {
         padding: 6px 12px;
-        font-size: 1.4em;
-        width: 48px;
-        height: 38px;
-        line-height: 1;
-        text-align: center;
-        color: var(--text-color);
-        border-color: var(--text-color);
+        font-size: 14px;
+      }
+      .slider-wrapper {
+        overflow-x: visible;
+        cursor: auto;
       }
     }
   </style>
@@ -170,95 +160,177 @@
     <button id="darkToggle">🌙 다크모드</button>
   </header>
 
-  <div class="card-container">
-
-    <!-- 카드 1 -->
-    <div class="card">
-      <img src="./image/travel.jpg" alt="BSH's Travel" />
-      <h2>✈️ BSH's Travel</h2>
-      <p>나만의 여행 기록을 간편하게 남기는 공간입니다.</p>
-      <a href="https://byeonsunghyun.github.io/bsh_travel/main">보러가기</a>
+  <main>
+    <div class="slider-wrapper" id="slider">
+      <div class="slider-container" id="sliderContainer">
+        <!-- 원본 카드 -->
+        <a class="card" href="https://byeonsunghyun.github.io/bsh_travel/main">
+          <img src="./image/travel.jpg" alt="BSH's Travel" />
+          <h2>✈️ BSH's Travel</h2>
+          <p>나만의 여행 기록을 간편하게 남기는 공간입니다.</p>
+        </a>
+        <a class="card" href="https://byeonsunghyun.github.io/bsh_cooking/cooking_main">
+          <img src="./image/food.jpg" alt="뭉치의 요리 레시피" />
+          <h2>🍳 뭉치의 요리 레시피</h2>
+          <p>쉽고 맛있는 요리법을 모은 레시피 모음입니다.</p>
+        </a>
+        <a class="card" href="https://byeonsunghyun.github.io/EasyFee_Calc/main">
+          <img src="./image/calc.jpg" alt="수수료 계산기" />
+          <h2>🔢 수수료 계산기</h2>
+          <p>빠르고 정확한 수수료 계산기입니다.</p>
+        </a>
+        <a class="card" href="https://byeonsunghyun.github.io/devtest/devtest">
+          <img src="./image/dev.jpg" alt="개발 연습장" />
+          <h2>💻 개발 연습장</h2>
+          <p>간단한 프로그램 개발 연습 공간입니다.</p>
+        </a>
+      </div>
     </div>
-
-    <!-- 카드 2 -->
-    <div class="card">
-      <img src="./image/food.jpg" alt="뭉치의 요리 레시피" />
-      <h2>🍳 뭉치의 요리 레시피</h2>
-      <p>쉽고 맛있는 요리법을 모은 레시피 모음입니다.</p>
-      <a href="https://byeonsunghyun.github.io/bsh_cooking/cooking_main">보러가기</a>
-    </div>
-
-    <!-- 카드 3 -->
-    <div class="card">
-      <img src="./image/calc.jpg" alt="수수료 계산기" />
-      <h2>🔢 수수료 계산기</h2>
-      <p>빠르고 정확한 수수료 계산기입니다.</p>
-      <a href="https://byeonsunghyun.github.io/EasyFee_Calc/main">보러가기</a>
-    </div>
-    
-    <!-- 카드 4 -->
-    <div class="card">
-      <img src="./image/dev.jpg" alt="개발 연습장" />
-      <h2>💻 개발 연습장</h2>
-      <p>간단한 프로그램 개발 연습 공간입니다.</p>
-      <a href="https://byeonsunghyun.github.io/devtest/devtest">보러가기</a>
-    </div>
-
-  </div>
+  </main>
 
   <footer>
     © 2025 Byeon Sung Hyun. All rights reserved.
   </footer>
 
   <script>
+    // 다크모드 기능
     const toggleBtn = document.getElementById('darkToggle');
-
-    // 로컬스토리지에서 다크모드 상태 읽기
     function loadDarkMode() {
       return localStorage.getItem('darkMode') === 'true';
     }
-
-    // 다크모드 상태 저장
     function saveDarkMode(isDark) {
       localStorage.setItem('darkMode', isDark);
     }
-
-    // 다크모드 적용/해제
     function applyDarkMode(isDark) {
-      if (isDark) {
-        document.body.classList.add('dark');
-      } else {
-        document.body.classList.remove('dark');
-      }
+      document.body.classList.toggle('dark', isDark);
     }
-
-    // 버튼 텍스트 업데이트
     function updateToggleText() {
       const isDark = document.body.classList.contains('dark');
-      if (window.innerWidth <= 600) {
-        toggleBtn.textContent = isDark ? '☀️' : '🌙';
-      } else {
-        toggleBtn.textContent = isDark ? '☀️ 라이트모드' : '🌙 다크모드';
-      }
+      toggleBtn.textContent = window.innerWidth <= 600
+        ? (isDark ? '☀️' : '🌙')
+        : (isDark ? '☀️ 라이트모드' : '🌙 다크모드');
     }
-
-    // 버튼 클릭 시 다크모드 토글 및 저장
     toggleBtn.addEventListener('click', () => {
       const isDark = document.body.classList.toggle('dark');
       saveDarkMode(isDark);
       updateToggleText();
     });
-
-    // 페이지 로드 시 저장된 다크모드 상태 불러오기
     window.addEventListener('DOMContentLoaded', () => {
-      const isDark = loadDarkMode();
-      applyDarkMode(isDark);
+      applyDarkMode(loadDarkMode());
       updateToggleText();
     });
-
-    // 창 크기 변경 시 버튼 텍스트 업데이트
     window.addEventListener('resize', updateToggleText);
-  </script>
 
+    // 슬라이더 무한 루프 기능
+    const sliderWrapper = document.getElementById('slider');
+    const sliderContainer = document.getElementById('sliderContainer');
+
+    let isDown = false,
+        startX,
+        scrollLeft;
+
+    // 카드 원본 배열
+    const cards = Array.from(sliderContainer.children).slice(0,4);
+
+    // 앞뒤 카드 복제 (무한 루프 효과)
+    const cloneCount = cards.length; // 복제할 카드 수(전체 원본 다 복제)
+    // 앞에 뒤쪽 카드들 복제
+    for(let i = cards.length - cloneCount; i < cards.length; i++) {
+      const clone = cards[i].cloneNode(true);
+      sliderContainer.insertBefore(clone, sliderContainer.firstChild);
+    }
+    // 뒤에 앞쪽 카드들 복제
+    for(let i = 0; i < cloneCount; i++) {
+      const clone = cards[i].cloneNode(true);
+      sliderContainer.appendChild(clone);
+    }
+
+    // 복제 후 모든 카드 다시 셋팅
+    const allCards = Array.from(sliderContainer.children);
+
+    // 카드 + gap 너비 계산
+    const cardWidth = cards[0].offsetWidth;
+    const gap = 20; // CSS grid gap과 동일하게 하드코딩
+
+    // 초기 위치: 복제된 앞부분 만큼 스크롤 위치 세팅
+    const startScroll = (cardWidth + gap) * cloneCount;
+    sliderWrapper.scrollLeft = startScroll;
+
+    // 트랜지션 제어용 플래그
+    let isTransitioning = false;
+
+    // 드래그 이벤트 (마우스)
+    sliderWrapper.addEventListener('mousedown', e => {
+      isDown = true;
+      sliderWrapper.style.cursor = 'grabbing';
+      startX = e.pageX - sliderWrapper.offsetLeft;
+      scrollLeft = sliderWrapper.scrollLeft;
+    });
+    sliderWrapper.addEventListener('mouseleave', e => {
+      isDown = false;
+      sliderWrapper.style.cursor = 'grab';
+    });
+    sliderWrapper.addEventListener('mouseup', e => {
+      isDown = false;
+      sliderWrapper.style.cursor = 'grab';
+    });
+    sliderWrapper.addEventListener('mousemove', e => {
+      if(!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - sliderWrapper.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      sliderWrapper.scrollLeft = scrollLeft - walk;
+    });
+
+    // 드래그 이벤트 (터치)
+    sliderWrapper.addEventListener('touchstart', e => {
+      isDown = true;
+      startX = e.touches[0].pageX - sliderWrapper.offsetLeft;
+      scrollLeft = sliderWrapper.scrollLeft;
+    });
+    sliderWrapper.addEventListener('touchend', e => {
+      isDown = false;
+    });
+    sliderWrapper.addEventListener('touchmove', e => {
+      if(!isDown) return;
+      const x = e.touches[0].pageX - sliderWrapper.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      sliderWrapper.scrollLeft = scrollLeft - walk;
+    });
+
+    // 자동 슬라이드 (무한 루프)
+    let speed = 0.5; // px per frame
+    let rafId;
+
+    function step() {
+      if (!isDown) {
+        sliderWrapper.scrollLeft += speed;
+
+        // 끝에서 끝으로 자연스럽게 연결
+        if (sliderWrapper.scrollLeft >= sliderContainer.scrollWidth - sliderWrapper.clientWidth) {
+          // 트랜지션 끄고 즉시 위치 점프
+          isTransitioning = true;
+          sliderWrapper.style.scrollBehavior = 'auto';
+          sliderWrapper.scrollLeft = startScroll;
+          // 트랜지션 다시 켜기
+          setTimeout(() => {
+            sliderWrapper.style.scrollBehavior = 'smooth';
+            isTransitioning = false;
+          }, 50);
+        }
+        else if (sliderWrapper.scrollLeft <= 0) {
+          isTransitioning = true;
+          sliderWrapper.style.scrollBehavior = 'auto';
+          sliderWrapper.scrollLeft = sliderContainer.scrollWidth - sliderWrapper.clientWidth - startScroll;
+          setTimeout(() => {
+            sliderWrapper.style.scrollBehavior = 'smooth';
+            isTransitioning = false;
+          }, 50);
+        }
+      }
+      rafId = requestAnimationFrame(step);
+    }
+    rafId = requestAnimationFrame(step);
+  </script>
 </body>
 </html>
