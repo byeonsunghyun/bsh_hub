@@ -131,6 +131,40 @@
       user-select: none;
       flex-shrink: 0;
     }
+    #convert-section {
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    #convert-section h3 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: #444;
+    }
+
+    #convert-card-container {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .convert-card {
+      background-color: #fff;
+      border: 2px solid #0288d1;
+      border-radius: 10px;
+      padding: 15px 25px;
+      color: #0288d1;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      transition: 0.2s ease;
+    }
+    .convert-card:hover {
+      background-color: #0288d1;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -160,6 +194,15 @@
     <div id="status"></div>
 
     <canvas id="canvas"></canvas>
+
+    <div id="convert-section">
+      <h3>📂 확장자 변경하기</h3>
+      <div id="convert-card-container">
+        <a class="convert-card" href="https://byeonsunghyun.github.io/bsh_hub/image_jpeg">이미지 압축</a>
+        <a class="convert-card" href="https://byeonsunghyun.github.io/bsh_hub/image_png">PNG 변환기</a>
+        <a class="convert-card" href="https://byeonsunghyun.github.io/bsh_hub/image_heic">HEIC 변환기</a>
+      </div>
+    </div>
   </main>
 
   <footer>
