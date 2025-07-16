@@ -5,13 +5,8 @@
   <title>HEIC 변환기</title>
   <link rel="icon" href="./image/imageicon.png" type="image/png">
   
-  <!-- ✅ heic2any 라이브러리 반드시 포함 -->
   <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.5/dist/heic2any.min.js"></script>
-  
-  <!-- ✅ JSZip도 같이 필요함 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
-  
 
   <style>
     body, html {
@@ -158,8 +153,8 @@
       👉 HEIC 파일을 여기로 끌어다 놓거나<br />
       클릭해서 선택하세요
     </div>
-    <input type="file" id="imageInput" accept=".heic" multiple style="display:none" />
-    <div id="fileCount">선택된 HEIC: 0장</div>
+    <input type="file" id="imageInput" accept=".heic,.jpg,.jpeg,.png" multiple style="display:none" />
+    <div id="fileCount">선택된 파일: 0장</div>
     <div style="margin-top: 10px;">
       <label for="formatSelect"><strong>변환 확장자 선택:</strong></label>
       <select id="formatSelect">
@@ -196,7 +191,6 @@
 
     let imgFiles = [];
 
-    // 클릭 및 드래그 앤 드롭 이벤트
     dropArea.addEventListener('click', () => imageInput.click());
     imageInput.addEventListener('change', e => addFiles(e.target.files));
 
@@ -214,89 +208,114 @@
 
     function addFiles(files) {
       for (const file of files) {
-        if (file.name.toLowerCase().endsWith('.heic')) {
+        const ext = file.name.toLowerCase().split('.').pop();
+        if (['heic', 'jpg', 'jpeg', 'png'].includes(ext)) {
           imgFiles.push(file);
         }
       }
-      fileCount.textContent = `선택된 HEIC: ${imgFiles.length}장`;
-      dropArea.textContent = `✅ ${imgFiles.length}장 HEIC 이미지 준비됨`;
+      fileCount.textContent = `선택된 파일: ${imgFiles.length}장`;
+      dropArea.textContent = `✅ ${imgFiles.length}장 이미지 준비됨`;
       status.textContent = '';
     }
 
+    async function isHeicFile(file) {
+      const header = await file.slice(0, 12).arrayBuffer();
+      const arr = new Uint8Array(header);
+      const str = String.fromCharCode(...arr).toLowerCase();
+
+      const brands = ['ftypheic', 'ftypheix', 'ftyphevc', 'ftypmif1', 'ftypmsf1'];
+      return brands.some(brand => str.includes(brand));
+    }
+
+    function downloadBlob(blob, filename) {
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(link.href);
+    }
+
+    async function convertHeicToImage(file, format) {
+      const arrayBuffer = await file.arrayBuffer();
+      return await heic2any({
+        blob: new Blob([arrayBuffer]),
+        toType: format,
+        quality: 1,
+      });
+    }
+
     async function convertImages() {
-    	  if (imgFiles.length === 0) {
-    	    alert('먼저 HEIC 파일을 선택하거나 끌어다 놓으세요!');
-    	    return;
-    	  }
-
-    	  const format = formatSelect.value;
-    	  const extension = format === 'image/png' ? '.png' : '.jpg';
-
-    	  status.textContent = '변환 중... 잠시만 기다려주세요.';
-
-    	  try {
-    	    const zip = new JSZip();
-
-    	    for (let i = 0; i < imgFiles.length; i++) {
-    	      status.textContent = `${i + 1} / ${imgFiles.length} 변환 중: ${imgFiles[i].name}`;
-    	      const blob = await convertHeicToImage(imgFiles[i], format);
-    	      const fileName = imgFiles[i].name.replace(/\.heic$/i, extension);
-    	      zip.file(fileName, blob);
-    	    }
-
-    	    const content = await zip.generateAsync({ type: 'blob' });
-    	    const link = document.createElement('a');
-    	    link.href = URL.createObjectURL(content);
-    	    link.download = `converted_heic_${Date.now()}.zip`;
-    	    document.body.appendChild(link);
-    	    link.click();
-    	    link.remove();
-
-    	    status.textContent = '✅ 변환 및 다운로드 완료!';
-
-    	    // 여기서만 초기화
-    	    resetFiles();
-
-    	  } catch (error) {
-    	    status.textContent = `❌ 변환 실패: ${error.message}`;
-    	    // 에러가 났으면 초기화는 안 하는 게 맞음
-    	  }
-    	}
-
-
-    // heic2any 라이브러리 이용해서 변환
-    function convertHeicToImage(file, format) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      try {
-        const arrayBuffer = e.target.result;
-        // heic2any 라이브러리 호출
-        const blob = await heic2any({
-          blob: new Blob([arrayBuffer]),
-          toType: format,
-          quality: 1,
-        });
-        resolve(blob);
-      } catch (err) {
-        console.error("heic2any 변환 에러:", err);
-        reject(err);
+      if (imgFiles.length === 0) {
+        alert('먼저 파일을 선택하거나 끌어다 놓으세요!');
+        return;
       }
-    };
-    reader.onerror = () => {
-      console.error("파일 읽기 실패");
-      reject(new Error('파일 읽기 실패'));
-    };
-    reader.readAsArrayBuffer(file);
-  });
-}
 
+      const format = formatSelect.value;
+      const extension = format === 'image/png' ? '.png' : '.jpg';
+
+      status.textContent = '변환 중... 잠시만 기다려주세요.';
+
+      try {
+        if (imgFiles.length === 1) {
+          // 1장일 때는 바로 변환 후 저장
+          const file = imgFiles[0];
+          const isHeic = await isHeicFile(file);
+
+          if (isHeic) {
+            const blob = await convertHeicToImage(file, format);
+            const fileName = file.name.replace(/\.heic$/i, extension);
+            downloadBlob(blob, fileName);
+          } else {
+            const baseName = file.name.replace(/\.[^.]+$/, '');
+            const fileName = baseName + extension;
+            downloadBlob(file, fileName);
+          }
+          status.textContent = '✅ 변환 및 다운로드 완료!';
+          resetFiles();
+        } else {
+          // 2장 이상일 때는 ZIP으로 묶어서 다운로드
+          const zip = new JSZip();
+
+          for (let i = 0; i < imgFiles.length; i++) {
+            status.textContent = `${i + 1} / ${imgFiles.length} 변환 중: ${imgFiles[i].name}`;
+
+            const file = imgFiles[i];
+            const isHeic = await isHeicFile(file);
+
+            if (isHeic) {
+              const blob = await convertHeicToImage(file, format);
+              const fileName = file.name.replace(/\.heic$/i, extension);
+              zip.file(fileName, blob);
+            } else {
+              const baseName = file.name.replace(/\.[^.]+$/, '');
+              const fileName = baseName + extension;
+              zip.file(fileName, file);
+            }
+          }
+
+          const content = await zip.generateAsync({ type: 'blob' });
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(content);
+          link.download = `converted_images_${Date.now()}.zip`;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+
+          status.textContent = '✅ 변환 및 다운로드 완료!';
+          resetFiles();
+        }
+      } catch (error) {
+        status.textContent = `❌ 변환 실패: ${error.message}`;
+      }
+    }
 
     function resetFiles() {
       imgFiles = [];
       imageInput.value = '';
-      fileCount.textContent = '선택된 HEIC: 0장';
-      dropArea.textContent = '👉 HEIC 파일을 여기로 끌어다 놓거나\n클릭해서 선택하세요';
+      fileCount.textContent = '선택된 파일: 0장';
+      dropArea.textContent = '👉 HEIC/JPG/PNG 파일을 여기로 끌어다 놓거나\n클릭해서 선택하세요';
       status.textContent = '';
     }
   </script>
