@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>HEIC 변환기</title>
+  <link rel="icon" href="./image/imageicon.png" type="image/png">
+  
+  <!-- ✅ heic2any 라이브러리 반드시 포함 -->
+  <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.5/dist/heic2any.min.js"></script>
+  
+  <!-- ✅ JSZip도 같이 필요함 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  
+
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0; padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      text-align: center;
+      padding: 15px 0 10px;
+      background: #fff;
+      box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+      flex-shrink: 0;
+    }
+    header img {
+      max-height: 50px;
+      width: auto;
+      user-select: none;
+    }
+    main {
+      flex: 1;
+      max-width: 700px;
+      margin: 20px auto 60px;
+      padding: 0 20px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+      font-weight: 700;
+      font-size: 1.8rem;
+    }
+    #drop-area {
+      border: 3px dashed #aaa;
+      padding: 40px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      background: #fafafa;
+      color: #777;
+      transition: background-color 0.3s, border-color 0.3s;
+      cursor: pointer;
+      user-select: none;
+      font-size: 1.1rem;
+      line-height: 1.4;
+      white-space: pre-line;
+    }
+    #drop-area.hover {
+      background: #d0f0fd;
+      border-color: #0288d1;
+      color: #015a8e;
+      box-shadow: 0 0 15px #0288d1aa;
+    }
+    #fileCount {
+      margin-bottom: 10px;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    #status {
+      margin-top: 10px;
+      font-weight: 600;
+      color: #0288d1;
+      min-height: 1.2em;
+    }
+    #button-group {
+      margin-top: 15px;
+      display: inline-flex;
+      gap: 12px;
+    }
+    button {
+      cursor: pointer;
+      background-color: #0288d1;
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #026aa7;
+    }
+    button#resetBtn {
+      background-color: #888;
+    }
+    button#resetBtn:hover {
+      background-color: #555;
+    }
+    footer {
+      height: 50px;
+      line-height: 50px;
+      color: black;
+      font-size: 0.9rem;
+      text-align: center;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    #convert-section {
+      margin-top: 50px;
+      text-align: center;
+    }
+    #convert-section h3 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: #444;
+    }
+    #convert-card-container {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .convert-card {
+      background-color: #fff;
+      border: 2px solid #0288d1;
+      border-radius: 10px;
+      padding: 15px 25px;
+      color: #0288d1;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      transition: 0.2s ease;
+    }
+    .convert-card:hover {
+      background-color: #0288d1;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="./image/imagelogo.png" alt="logo" />
+  </header>
+
+  <main>
+    <h2>🖼️ HEIC 변환기</h2>
+    <div id="drop-area">
+      👉 HEIC 파일을 여기로 끌어다 놓거나<br />
+      클릭해서 선택하세요
+    </div>
+    <input type="file" id="imageInput" accept=".heic" multiple style="display:none" />
+    <div id="fileCount">선택된 HEIC: 0장</div>
+    <div style="margin-top: 10px;">
+      <label for="formatSelect"><strong>변환 확장자 선택:</strong></label>
+      <select id="formatSelect">
+        <option value="image/jpeg">JPG</option>
+        <option value="image/png">PNG</option>
+      </select>
+    </div>
+    <div id="button-group">
+      <button onclick="convertImages()">변환 및 다운로드</button>
+      <button id="resetBtn" onclick="resetFiles()">초기화</button>
+    </div>
+    <div id="status"></div>
+    
+    <div id="convert-section">
+      <h3>📂 확장자 변경하기</h3>
+      <div id="convert-card-container">
+        <a class="convert-card" href="https://byeonsunghyun.github.io/bsh_hub/image_jpeg">JPEG 변환기</a>
+        <a class="convert-card" href="https://byeonsunghyun.github.io/bsh_hub/image_png">PNG 변환기</a>
+        <a class="convert-card" href="https://byeonsunghyun.github.io/bsh_hub/image_compression">이미지 압축</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Byeon Sung Hyun. All rights reserved.
+  </footer>
+
+  <script>
+    const dropArea = document.getElementById('drop-area');
+    const imageInput = document.getElementById('imageInput');
+    const fileCount = document.getElementById('fileCount');
+    const status = document.getElementById('status');
+    const formatSelect = document.getElementById('formatSelect');
+
+    let imgFiles = [];
+
+    // 클릭 및 드래그 앤 드롭 이벤트
+    dropArea.addEventListener('click', () => imageInput.click());
+    imageInput.addEventListener('change', e => addFiles(e.target.files));
+
+    dropArea.addEventListener('dragenter', e => { e.preventDefault(); dropArea.classList.add('hover'); });
+    dropArea.addEventListener('dragover', e => { e.preventDefault(); dropArea.classList.add('hover'); });
+    dropArea.addEventListener('dragleave', e => { e.preventDefault(); dropArea.classList.remove('hover'); });
+    dropArea.addEventListener('drop', e => {
+      e.preventDefault();
+      dropArea.classList.remove('hover');
+      if (e.dataTransfer.files.length > 0) {
+        addFiles(e.dataTransfer.files);
+        imageInput.files = e.dataTransfer.files;
+      }
+    });
+
+    function addFiles(files) {
+      for (const file of files) {
+        if (file.name.toLowerCase().endsWith('.heic')) {
+          imgFiles.push(file);
+        }
+      }
+      fileCount.textContent = `선택된 HEIC: ${imgFiles.length}장`;
+      dropArea.textContent = `✅ ${imgFiles.length}장 HEIC 이미지 준비됨`;
+      status.textContent = '';
+    }
+
+    async function convertImages() {
+    	  if (imgFiles.length === 0) {
+    	    alert('먼저 HEIC 파일을 선택하거나 끌어다 놓으세요!');
+    	    return;
+    	  }
+
+    	  const format = formatSelect.value;
+    	  const extension = format === 'image/png' ? '.png' : '.jpg';
+
+    	  status.textContent = '변환 중... 잠시만 기다려주세요.';
+
+    	  try {
+    	    const zip = new JSZip();
+
+    	    for (let i = 0; i < imgFiles.length; i++) {
+    	      status.textContent = `${i + 1} / ${imgFiles.length} 변환 중: ${imgFiles[i].name}`;
+    	      const blob = await convertHeicToImage(imgFiles[i], format);
+    	      const fileName = imgFiles[i].name.replace(/\.heic$/i, extension);
+    	      zip.file(fileName, blob);
+    	    }
+
+    	    const content = await zip.generateAsync({ type: 'blob' });
+    	    const link = document.createElement('a');
+    	    link.href = URL.createObjectURL(content);
+    	    link.download = `converted_heic_${Date.now()}.zip`;
+    	    document.body.appendChild(link);
+    	    link.click();
+    	    link.remove();
+
+    	    status.textContent = '✅ 변환 및 다운로드 완료!';
+
+    	    // 여기서만 초기화
+    	    resetFiles();
+
+    	  } catch (error) {
+    	    status.textContent = `❌ 변환 실패: ${error.message}`;
+    	    // 에러가 났으면 초기화는 안 하는 게 맞음
+    	  }
+    	}
+
+
+    // heic2any 라이브러리 이용해서 변환
+    function convertHeicToImage(file, format) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const arrayBuffer = e.target.result;
+        // heic2any 라이브러리 호출
+        const blob = await heic2any({
+          blob: new Blob([arrayBuffer]),
+          toType: format,
+          quality: 1,
+        });
+        resolve(blob);
+      } catch (err) {
+        console.error("heic2any 변환 에러:", err);
+        reject(err);
+      }
+    };
+    reader.onerror = () => {
+      console.error("파일 읽기 실패");
+      reject(new Error('파일 읽기 실패'));
+    };
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+
+    function resetFiles() {
+      imgFiles = [];
+      imageInput.value = '';
+      fileCount.textContent = '선택된 HEIC: 0장';
+      dropArea.textContent = '👉 HEIC 파일을 여기로 끌어다 놓거나\n클릭해서 선택하세요';
+      status.textContent = '';
+    }
+  </script>
+</body>
+</html>
