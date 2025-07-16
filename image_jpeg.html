@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>JPEG 변환기</title>
+  <link rel="icon" href="./image/imageicon.png" type="image/png">
+
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      text-align: center;
+      padding: 15px 0 10px;
+      background: #fff;
+      box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+      flex-shrink: 0;
+    }
+    header img {
+      max-height: 50px;
+      width: auto;
+      user-select: none;
+    }
+    main {
+      flex: 1;
+      max-width: 700px;
+      margin: 20px auto 60px;
+      padding: 0 20px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+      font-weight: 700;
+      font-size: 1.8rem;
+    }
+    #drop-area {
+      border: 3px dashed #aaa;
+      padding: 40px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      background: #fafafa;
+      color: #777;
+      transition: background-color 0.3s, border-color 0.3s;
+      cursor: pointer;
+      user-select: none;
+      font-size: 1.1rem;
+      line-height: 1.4;
+      white-space: pre-line;
+    }
+    #drop-area.hover {
+      background: #d0f0fd;
+      border-color: #0288d1;
+      color: #015a8e;
+      box-shadow: 0 0 15px #0288d1aa;
+    }
+    #fileCount {
+      margin-bottom: 10px;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    #status {
+      margin-top: 10px;
+      font-weight: 600;
+      color: #0288d1;
+      min-height: 1.2em;
+    }
+    #button-group {
+      margin-top: 15px;
+      display: inline-flex;
+      gap: 12px;
+    }
+    button {
+      cursor: pointer;
+      background-color: #0288d1;
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #026aa7;
+    }
+    button#resetBtn {
+      background-color: #888;
+    }
+    button#resetBtn:hover {
+      background-color: #555;
+    }
+    canvas {
+      display: none;
+    }
+    footer {
+      height: 50px;
+      line-height: 50px;
+      color: black;
+      font-size: 0.9rem;
+      text-align: center;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    #convert-section {
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    #convert-section h3 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: #444;
+    }
+
+    #convert-card-container {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .convert-card {
+      background-color: #fff;
+      border: 2px solid #0288d1;
+      border-radius: 10px;
+      padding: 15px 25px;
+      color: #0288d1;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      transition: 0.2s ease;
+    }
+    .convert-card:hover {
+      background-color: #0288d1;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="./image/imagelogo.png" alt="logo" />
+  </header>
+
+  <main>
+    <h2>🎞️ JPEG 변환기</h2>
+
+    <div id="drop-area">
+      👉 JPEG 파일을 여기로 끌어다 놓거나<br />
+      클릭해서 선택하세요
+    </div>
+    <input type="file" id="imageInput" accept="image/jpeg" multiple style="display:none" />
+
+    <div id="fileCount">선택된 JPEG: 0장</div>
+
+    <!-- 드롭다운 -->
+    <div style="margin-top: 10px;">
+      <label for="formatSelect"><strong>변환 확장자 선택:</strong></label>
+      <select id="formatSelect">
+        <option value="image/jpeg">JPG</option>
+        <option value="image/png">PNG</option>
+      </select>
+    </div>
+
+    <div id="button-group">
+      <button onclick="convertImages()">변환 및 다운로드</button>
+      <button id="resetBtn" onclick="resetFiles()">초기화</button>
+    </div>
+
+    <div id="status"></div>
+    <canvas id="canvas"></canvas>
+    
+    <div id="convert-section">
+      <h3>📂 확장자 변경하기</h3>
+      <div id="convert-card-container">
+        <a class="convert-card" href="https://byeonsunghyun.github.io/bsh_hub/image_png">PNG 변환기</a>
+        <a class="convert-card" href="https://byeonsunghyun.github.io/bsh_hub/image_heic">HEIC 변환기</a>
+        <a class="convert-card" href="https://byeonsunghyun.github.io/bsh_hub/image_compression">이미지 압축</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Byeon Sung Hyun. All rights reserved.
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script>
+    const dropArea = document.getElementById('drop-area');
+    const imageInput = document.getElementById('imageInput');
+    const fileCount = document.getElementById('fileCount');
+    const status = document.getElementById('status');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let imgFiles = [];
+
+    dropArea.addEventListener('click', () => imageInput.click());
+    imageInput.addEventListener('change', e => addFiles(e.target.files));
+
+    dropArea.addEventListener('dragenter', e => { e.preventDefault(); dropArea.classList.add('hover'); });
+    dropArea.addEventListener('dragover', e => { e.preventDefault(); dropArea.classList.add('hover'); });
+    dropArea.addEventListener('dragleave', e => { e.preventDefault(); dropArea.classList.remove('hover'); });
+    dropArea.addEventListener('drop', e => {
+      e.preventDefault();
+      dropArea.classList.remove('hover');
+      if (e.dataTransfer.files.length > 0) {
+        addFiles(e.dataTransfer.files);
+        imageInput.files = e.dataTransfer.files;
+      }
+    });
+
+    function addFiles(files) {
+      for (const file of files) {
+        if (file.type === "image/jpeg") {
+          imgFiles.push(file);
+        }
+      }
+      updateFileCount();
+      dropArea.textContent = `✅ ${imgFiles.length}장 JPEG 이미지 준비됨`;
+      status.textContent = '';
+    }
+
+    function updateFileCount() {
+      fileCount.textContent = `선택된 JPEG: ${imgFiles.length}장`;
+    }
+
+    async function convertImages() {
+      if (imgFiles.length === 0) {
+        alert('먼저 JPEG 파일을 선택하거나 끌어다 놓으세요!');
+        return;
+      }
+
+      const selectedFormat = document.getElementById("formatSelect").value;
+      const extension = selectedFormat === "image/png" ? ".png" : ".jpg";
+
+      status.textContent = '변환 작업 중... 잠시만 기다려주세요.';
+
+      if (imgFiles.length === 1) {
+        const blob = await convertImage(imgFiles[0], selectedFormat);
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = imgFiles[0].name.replace(/\.jpe?g$/i, extension);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        status.textContent = `✅ "${link.download}" 파일 다운로드가 시작되었습니다.`;
+      } else {
+        const zip = new JSZip();
+        for (let i = 0; i < imgFiles.length; i++) {
+          status.textContent = `변환 중: ${i + 1} / ${imgFiles.length} - ${imgFiles[i].name}`;
+          const blob = await convertImage(imgFiles[i], selectedFormat);
+          zip.file(imgFiles[i].name.replace(/\.jpe?g$/i, extension), blob);
+        }
+        zip.generateAsync({ type: "blob" }).then(function(content) {
+          const zipName = `converted_images_${Date.now()}.zip`;
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(content);
+          link.download = zipName;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+
+          status.textContent = `✅ 완료! "${zipName}" 파일 다운로드가 시작되었습니다.`;
+        });
+      }
+
+      imgFiles = [];
+      updateFileCount();
+      dropArea.textContent = '👉 JPEG 파일을 여기로 끌어다 놓거나\n클릭해서 선택하세요';
+    }
+
+    function convertImage(file, format) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const img = new Image();
+          img.onload = function() {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+            canvas.toBlob(blob => resolve(blob), format, 1.0);
+          };
+          img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function resetFiles() {
+      imgFiles = [];
+      updateFileCount();
+      dropArea.textContent = '👉 JPEG 파일을 여기로 끌어다 놓거나\n클릭해서 선택하세요';
+      status.textContent = '';
+      imageInput.value = '';
+    }
+  </script>
+</body>
+</html>
