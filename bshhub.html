@@ -3,398 +3,216 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet" />
-  <link rel="icon" type="image/png" sizes="32x32" href="./image/hub_logo.png" />
-  <title>SungHyun's Project Hub</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="./image/computer.png" />  
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+  <title>BSH's LAB</title>
   <style>
-    :root {
-      --bg-color: #f9f9f9;
-      --text-color: #222;
-      --card-bg: #fff;
-    }
-    body.dark {
-      --bg-color: #121212;
-      --text-color: #f0f0f0;
-      --card-bg: #1e1e1e;
-    }
     * {
       box-sizing: border-box;
-      transition: all 0.3s ease;
     }
-    html, body {
-      height: 100%;
-      margin: 0; padding: 0;
-    }
+
     body {
-      background: var(--bg-color);
-      color: var(--text-color);
-      display: flex;
-      flex-direction: column;
-      user-select: none;
-      overflow-x: hidden;
-    }
-    header {
-      padding: 20px;
-      text-align: center;
-      position: relative;
-      border-bottom: 1px solid #ccc;
-      font-family: 'Orbitron', sans-serif;
-    }
-    header h1 {
-      font-size: 2em;
+      background-color: #f5f7fa;
+      color: #333;
       margin: 0;
+      padding: 0;
+      font-family: 'Gowun Dodum', sans-serif;
     }
-    #darkToggle {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: none;
-      border: 2px solid var(--text-color);
-      color: var(--text-color);
-      padding: 6px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.9em;
-    }
-    main {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+
+    header {
+      background-color: #222;
+      color: white;
       padding: 20px;
-      overflow: hidden;
-      position: relative;
-    }
-    /* 데스크톱 무한 슬라이더 */
-    .slider-wrapper {
-      width: 100%;
-      max-width: 1120px;
-      overflow: hidden;
-      cursor: grab;
-      user-select: none;
-      position: relative;
-      padding: 10px 0;
-    }
-    .slider-container {
-      display: grid;
-      grid-auto-flow: column;
-      grid-template-rows: repeat(2, auto);
-      gap: 20px;
-      width: max-content;
-      transition: none;
-    }
-    /* 모바일 단순 스크롤 컨테이너 */
-    .slider-wrapper-mobile {
-      display: none; /* 기본은 숨김 */
-      width: 90%;
-      max-height: 100vh;
-      overflow-y: auto;
-      cursor: auto;
-      padding: 10px 0;
-      box-sizing: border-box;
-    }
-    .slider-wrapper-mobile .slider-container-mobile {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    a.card {
-      background: var(--card-bg);
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-      width: 280px;
-      display: flex;
-      flex-direction: column;
-      padding: 16px;
       text-align: center;
-      text-decoration: none;
-      color: inherit;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      user-select: none;
-      position: relative;
-      z-index: 0;
-      flex-shrink: 0;
     }
-    a.card:hover {
-      transform: scale(1.03);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-      cursor: pointer;
-      z-index: 10;
+
+    h1 {
+      margin: 0;
+      font-size: 2em;
     }
-    .card img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 12px;
-      user-select: none;
-      pointer-events: none;
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeSlideIn 0.6s ease-out forwards;
     }
-    .card h2 {
-      margin: 10px 0 6px;
+
+    @keyframes fadeSlideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .program {
+      margin-bottom: 30px;
+    }
+
+    .program-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .program h2 {
+      margin: 0;
       font-size: 1.2em;
     }
-    .card p {
-      font-size: 0.9em;
-      color: var(--text-color);
+
+    .toggle-btn {
+      background: none;
+      border: none;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: transform 0.3s ease;
     }
+
+    .toggle-btn.rotate {
+      transform: rotate(180deg);
+    }
+
+    .program p {
+      margin: 8px 0;
+      color: #555;
+    }
+
+    .extra-desc {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 10px;
+  margin-top: 0;
+  background-color: #f9fafc;
+  border-left: 4px solid #007bff;
+  border-radius: 6px;
+  color: #444;
+  transition: max-height 0.4s ease, margin-top 0.4s ease, padding 0.4s ease;
+}
+
+.extra-desc.show {
+  max-height: 500px;  /* 충분히 큰 값 */
+  padding: 10px;
+  margin-top: 10px;
+}
+
+
+    .program a {
+      display: inline-block;
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+      margin-top: 8px;
+    }
+
+    .program a:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0, 86, 179, 0.4);
+    }
+
     footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #222;
       text-align: center;
       padding: 20px;
       font-size: 0.9em;
-      background: transparent;
-      color: var(--text-color);
-      border-top: 1px solid #ccc;
-      font-family: 'Orbitron', sans-serif;
+      color: white;
+      border-top: 1px solid #ddd;
+      z-index: 1000;
     }
 
-    /* 모바일 전용 스타일 */
-    @media (max-width: 768px) {
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* 이중 스크롤 방지 */
-  }
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.5em;
+      }
 
-  main {
-    flex: 1;
-    height: calc(100vh - 120px); /* 헤더(약 60px) + 푸터(약 60px) 제외 */
-    overflow-y: auto;
-    padding: 0;
-  }
+      .container {
+        margin: 20px 10px;
+        padding: 16px;
+      }
 
-  .slider-wrapper {
-    display: none !important; /* 데스크톱 슬라이더 숨김 */
-  }
+      .program h2 {
+        font-size: 1.1em;
+      }
 
-  .slider-wrapper-mobile {
-    display: block !important;
-    width: 100vw; /* 너비 100% 채움 */
-    height: 100%;
-    overflow-y: auto;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-
-  .slider-wrapper-mobile .slider-container-mobile {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    width: 100%;
-  }
-
-  .slider-wrapper-mobile .slider-container-mobile a.card {
-    width: 100% !important;
-    margin-bottom: 16px;
-  }
-
-  header h1 {
-    font-size: 1.0em;
-    margin-top: 6px;
-  }
-
-  #darkToggle {
-    padding: 6px 12px;
-    font-size: 10px;
-  }
-  
-  footer {
-      font-size: 0.75em;
+      .program a {
+        width: 100%;
+        text-align: center;
+        padding: 12px 0;
+      }
     }
-}
-
   </style>
 </head>
 <body>
 
   <header>
-    <h1>SungHyun's Project Hub 🔗</h1>
-    <button id="darkToggle">🌙 다크모드</button>
+    <h1>
+    	<img src="./image/dev_logo.png" alt="컴퓨터 아이콘" style="width:160px; height:70px; vertical-align:middle;" />
+    </h1>
+    <p>만들고 싶은 걸 자유롭게 만들어보는 개발 공간</p>
   </header>
 
-  <main>
-    <!-- 데스크톱 무한 슬라이더 -->
-    <div class="slider-wrapper" id="slider">
-      <div class="slider-container" id="sliderContainer">
-        <a class="card" href="https://byeonsunghyun.github.io/bsh_travel/main">
-          <img src="./image/travel.jpg" alt="BSH's Travel" />
-          <h2>BSH's Travel</h2>
-          <p>나만의 여행 기록을<br>간편하게 남기는 공간</p>
-        </a>
-        <a class="card" href="https://byeonsunghyun.github.io/bsh_cooking/cooking_main">
-          <img src="./image/food.jpg" alt="뭉치의 요리 레시피" />
-          <h2>뭉치의 요리 레시피</h2>
-          <p>쉽고 맛있는 요리법을<br>모은 레시피 사이트</p>
-        </a>
-        <a class="card" href="https://byeonsunghyun.github.io/EasyFee_Calc/main">
-          <img src="./image/calc.jpg" alt="수수료 계산기" />
-          <h2>수수료 계산기</h2>
-          <p>빠르고 정확한 수수료 계산기</p>
-        </a>
-        <a class="card" href="https://byeonsunghyun.github.io/devtest/devtest">
-          <img src="./image/dev.jpg" alt="개발 실험실" />
-          <h2>개발 실험실</h2>
-          <p>간단한 프로그램 개발 연습 공간</p>
-        </a>
-        <a class="card" href="https://byeonsunghyun.github.io/bsh_hub/image_compression">
-          <img src="./image/compression.jpg" alt="이미지 압축" />
-          <h2>이미지 압축</h2>
-          <p>이미지를 빠르고 쉽게<br>압축할 수 있는 웹 도구</p>
-        </a>
+  <div class="container">
+
+    <!-- 프로그램 1 -->
+    <div class="program">
+      <div class="program-header">
+        <h2>🔍 PC정보조회</h2>
+        <button class="toggle-btn" onclick="toggleExtra(this)">▼</button>
+      </div>
+      <p>포맷 전에 꼭 확인해야 할 정보를 한눈에 보여주는 도구입니다.</p>
+      <a href="https://byeonsunghyun.github.io/devtest/downloads/PC정보조회.exe" download>📥 다운로드</a>
+      <div class="extra-desc">
+        🔧 <strong>버전</strong><br />
+        Version : 1.0.0
       </div>
     </div>
 
-    <!-- 모바일 단순 스크롤 컨테이너 -->
-    <div class="slider-wrapper-mobile" id="sliderMobile">
-      <div class="slider-container-mobile">
-        <a class="card" href="https://byeonsunghyun.github.io/bsh_travel/main">
-          <img src="./image/travel.jpg" alt="BSH's Travel" />
-          <h2>BSH's Travel</h2>
-          <p>나만의 여행 기록을 간편하게 남기는 공간</p>
-        </a>
-        <a class="card" href="https://byeonsunghyun.github.io/bsh_cooking/cooking_main">
-          <img src="./image/food.jpg" alt="뭉치의 요리 레시피" />
-          <h2>뭉치의 요리 레시피</h2>
-          <p>쉽고 맛있는 요리법을 모은 레시피 사이트</p>
-        </a>
-        <a class="card" href="https://byeonsunghyun.github.io/EasyFee_Calc/main">
-          <img src="./image/calc.jpg" alt="수수료 계산기" />
-          <h2>수수료 계산기</h2>
-          <p>빠르고 정확한 수수료 계산기</p>
-        </a>
-        <a class="card" href="https://byeonsunghyun.github.io/devtest/devtest">
-          <img src="./image/dev.jpg" alt="개발 실험실" />
-          <h2>개발 실험실</h2>
-          <p>간단한 프로그램 개발 연습 공간</p>
-        </a>
-        <a class="card" href="https://byeonsunghyun.github.io/bsh_hub/image_compression">
-          <img src="./image/compression.jpg" alt="이미지 압축" />
-          <h2>이미지 압축</h2>
-          <p>이미지를 빠르고 쉽게<br>압축할 수 있는 웹 도구</p>
-        </a>
+    <!-- 프로그램 2 -->
+    <div class="program">
+      <div class="program-header">
+        <h2>🖱️ 자동 클릭 매크로</h2>
+        <button class="toggle-btn" onclick="toggleExtra(this)">▼</button>
+      </div>
+      <p>마우스를 반복적으로 클릭해야 하는 작업을 자동으로 수행해 주는 도구입니다.</p>
+      <a href="https://drive.google.com/file/d/1aTCGIKo__Uo8fizXZhRYg6x5MFH4FqNk/view" download>📥 다운로드</a>
+      <div class="extra-desc">
+        🔧 <strong>버전</strong><br />
+       Version : 1.0.0
       </div>
     </div>
-  </main>
+    
+    
+
+  </div>
 
   <footer>
-    © 2025 Byeon Sung Hyun. All rights reserved.
-  </footer>
+  © 2025 Byeon Sung Hyun. All rights reserved.
+  <a href="https://byeonsunghyun.github.io/bsh_hub/bshhub" title="사이트 방문" style="display: inline-block;">
+    <img src="./image/hub_logo.png" alt="컴퓨터 아이콘" style="width:20px; height:20px; vertical-align:middle; margin-left:5px; margin-bottom:2px; cursor:pointer;" />
+  </a>
+</footer>
+
 
   <script>
-    // 다크모드 기능
-    const toggleBtn = document.getElementById('darkToggle');
-    function loadDarkMode() {
-      return localStorage.getItem('darkMode') === 'true';
-    }
-    function saveDarkMode(isDark) {
-      localStorage.setItem('darkMode', isDark);
-    }
-    function applyDarkMode(isDark) {
-      document.body.classList.toggle('dark', isDark);
-    }
-    function updateToggleText() {
-      const isDark = document.body.classList.contains('dark');
-      toggleBtn.textContent = window.innerWidth <= 600
-        ? (isDark ? '☀️' : '🌙')
-        : (isDark ? '☀️ 라이트모드' : '🌙 다크모드');
-    }
-    toggleBtn.addEventListener('click', () => {
-      const isDark = document.body.classList.toggle('dark');
-      saveDarkMode(isDark);
-      updateToggleText();
-    });
-    window.addEventListener('DOMContentLoaded', () => {
-      applyDarkMode(loadDarkMode());
-      updateToggleText();
-      if (window.innerWidth > 768) {
-        rafId = requestAnimationFrame(step);
-      }
-    });
-    window.addEventListener('resize', updateToggleText);
-
-    // 슬라이더 무한 루프 기능 (데스크톱 전용)
-    const sliderWrapper = document.getElementById('slider');
-    const sliderContainer = document.getElementById('sliderContainer');
-
-    let isDown = false,
-        startX,
-        scrollLeft,
-        rafId;
-
-    if (window.innerWidth > 768) {
-      const originalCards = Array.from(sliderContainer.children);
-      const repeatCount = 200;  // 200번 반복
-
-      // 200번 반복 복제해서 끝에 붙임
-      for(let i = 0; i < repeatCount; i++) {
-        originalCards.forEach(card => {
-          const clone = card.cloneNode(true);
-          sliderContainer.appendChild(clone);
-        });
-      }
-
-      // 초기 스크롤 위치 0
-      sliderWrapper.scrollLeft = 0;
-
-      // 마우스 드래그 이벤트
-      sliderWrapper.addEventListener('mousedown', e => {
-        isDown = true;
-        sliderWrapper.style.cursor = 'grabbing';
-        startX = e.pageX - sliderWrapper.offsetLeft;
-        scrollLeft = sliderWrapper.scrollLeft;
-      });
-      sliderWrapper.addEventListener('mouseleave', e => {
-        isDown = false;
-        sliderWrapper.style.cursor = 'grab';
-      });
-      sliderWrapper.addEventListener('mouseup', e => {
-        isDown = false;
-        sliderWrapper.style.cursor = 'grab';
-      });
-      sliderWrapper.addEventListener('mousemove', e => {
-        if(!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - sliderWrapper.offsetLeft;
-        const walk = (x - startX) * 1.5;
-        sliderWrapper.scrollLeft = scrollLeft - walk;
-      });
-
-      // 터치 드래그 이벤트
-      sliderWrapper.addEventListener('touchstart', e => {
-        isDown = true;
-        startX = e.touches[0].pageX - sliderWrapper.offsetLeft;
-        scrollLeft = sliderWrapper.scrollLeft;
-      });
-      sliderWrapper.addEventListener('touchend', e => {
-        isDown = false;
-      });
-      sliderWrapper.addEventListener('touchmove', e => {
-        if(!isDown) return;
-        const x = e.touches[0].pageX - sliderWrapper.offsetLeft;
-        const walk = (x - startX) * 1.5;
-        sliderWrapper.scrollLeft = scrollLeft - walk;
-      });
-
-      // 자동 슬라이드 & 무한 루프 점프
-      let speed = 0.5;
-
-      function step() {
-        if (!isDown) {
-          sliderWrapper.scrollLeft += speed;
-
-          if (sliderWrapper.scrollLeft >= sliderContainer.scrollWidth - sliderWrapper.clientWidth - 1) {
-            sliderWrapper.style.scrollBehavior = 'auto';
-            sliderWrapper.scrollLeft = 0;
-            requestAnimationFrame(() => {
-              sliderWrapper.style.scrollBehavior = '';
-            });
-          }
-        }
-        rafId = requestAnimationFrame(step);
-      }
+    function toggleExtra(btn) {
+      const desc = btn.closest('.program').querySelector('.extra-desc');
+      desc.classList.toggle('show');
+      btn.classList.toggle('rotate');
     }
   </script>
+
 </body>
 </html>
