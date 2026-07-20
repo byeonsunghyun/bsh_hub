@@ -1,198 +1,1180 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>2026 홍콩 여행 일정</title>
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link rel="stylesheet" href="/css/plan.css">
-<link rel="icon" href="/image/favicon.png" type="image/png">
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+  >
+
+  <meta name="theme-color" content="#1F2A44">
+  <meta
+    name="description"
+    content="2026년 8월 1일부터 8월 3일까지 홍콩 여행 일정"
+  >
+
+  <title>2026 홍콩 여행 일정</title>
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- favicon.png 파일을 저장소 최상위에 둘 경우 -->
+  <link rel="icon" href="./favicon.png" type="image/png">
+
+  <style>
+    @font-face {
+      font-family: "Pretendard";
+      src: url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/woff2/PretendardVariable.woff2")
+        format("woff2-variations");
+      font-weight: 45 920;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --navy: #1f2a44;
+      --navy-deep: #141c30;
+      --coral: #ff6b4a;
+      --gold: #f4b942;
+      --paper: #f6f1e6;
+      --card: #fffdf8;
+      --ink: #2a2a2a;
+      --sub: #7a7568;
+      --line: #e7dfcc;
+      --green: #6b8f71;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family:
+        "Pretendard",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 38px 20px 54px;
+      color: #fff;
+      background: linear-gradient(
+        160deg,
+        var(--navy) 0%,
+        var(--navy-deep) 100%
+      );
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at 30% 30%,
+        var(--gold),
+        transparent 70%
+      );
+      opacity: 0.55;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      bottom: -70px;
+      left: -60px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at 60% 40%,
+        var(--coral),
+        transparent 70%
+      );
+      opacity: 0.35;
+    }
+
+    .hero .eyebrow {
+      position: relative;
+      z-index: 1;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      position: relative;
+      z-index: 1;
+      margin: 10px 0 6px;
+      font-family: "Gowun Dodum", sans-serif;
+      font-size: 30px;
+      line-height: 1.3;
+    }
+
+    .hero p.sub {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: #c9cedb;
+      font-size: 14px;
+    }
+
+    .hero .datebar {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+      color: #fff;
+      font-size: 13px;
+    }
+
+    .hero .datebar span {
+      padding: 5px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .tabs {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(246, 241, 230, 0.96);
+      backdrop-filter: blur(10px);
+      scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab {
+      flex: 0 0 auto;
+      padding: 9px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--sub);
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        border-color 0.18s ease,
+        transform 0.18s ease;
+    }
+
+    .tab:hover {
+      transform: translateY(-1px);
+    }
+
+    .tab:focus-visible {
+      outline: 3px solid rgba(255, 107, 74, 0.3);
+      outline-offset: 2px;
+    }
+
+    .tab .d {
+      display: block;
+      margin-top: 1px;
+      font-size: 10px;
+      font-weight: 500;
+      opacity: 0.75;
+    }
+
+    .tab.active {
+      border-color: var(--navy);
+      background: var(--navy);
+      color: #fff;
+    }
+
+    main {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 18px 16px 10px;
+    }
+
+    .day-panel {
+      display: none;
+    }
+
+    .day-panel.active {
+      display: block;
+      animation: fade-in 0.25s ease;
+    }
+
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .day-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 4px 2px 16px;
+    }
+
+    .day-title h2 {
+      margin: 0;
+      color: var(--navy);
+      font-family: "Gowun Dodum", sans-serif;
+      font-size: 19px;
+    }
+
+    .day-title span {
+      color: var(--sub);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 26px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 6px;
+      bottom: 6px;
+      left: 7px;
+      width: 2px;
+      background: var(--line);
+    }
+
+    .item {
+      position: relative;
+      margin-bottom: 18px;
+    }
+
+    .item::before {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: -26px;
+      width: 14px;
+      height: 14px;
+      border: 3px solid var(--coral);
+      border-radius: 50%;
+      background: var(--card);
+    }
+
+    .item.transport::before {
+      border-color: var(--navy);
+    }
+
+    .item.food::before {
+      border-color: #b98b3a;
+    }
+
+    .item.stay::before {
+      border-color: var(--green);
+    }
+
+    .item.concert::before {
+      border-color: var(--gold);
+      background: var(--gold);
+      box-shadow: 0 0 0 4px rgba(244, 185, 66, 0.25);
+    }
+
+    .time {
+      margin-bottom: 4px;
+      color: var(--sub);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .card {
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    }
+
+    .card .row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .card .icon {
+      flex: 0 0 auto;
+      font-size: 19px;
+      line-height: 1.3;
+    }
+
+    .card .title {
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .card .detail {
+      margin-top: 3px;
+      color: var(--sub);
+      font-size: 12.5px;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .map-link {
+      display: inline-block;
+      margin-top: 7px;
+      padding: 5px 9px;
+      border-radius: 6px;
+      background: #f0f7ff;
+      color: #007aff;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .map-link:hover {
+      background: #dfefff;
+      text-decoration: underline;
+    }
+
+    .map-link:focus-visible {
+      outline: 3px solid rgba(0, 122, 255, 0.25);
+      outline-offset: 2px;
+    }
+
+    section.block {
+      margin-top: 28px;
+      padding-top: 6px;
+    }
+
+    section.block h3 {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0 0 12px;
+      color: var(--navy);
+      font-family: "Gowun Dodum", sans-serif;
+      font-size: 17px;
+    }
+
+    .budget-card {
+      margin-bottom: 10px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+    }
+
+    .budget-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 0;
+      border-bottom: 1px dashed var(--line);
+      font-size: 14px;
+    }
+
+    .budget-row:last-of-type {
+      border-bottom: 0;
+    }
+
+    .budget-row .label {
+      color: var(--sub);
+      font-size: 13px;
+    }
+
+    .budget-row .val {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .budget-total {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-top: 8px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    .budget-total .label {
+      color: var(--sub);
+      font-size: 13px;
+    }
+
+    .budget-total .val {
+      color: var(--coral);
+      font-size: 19px;
+      font-weight: 800;
+    }
+
+    .rate-note {
+      margin-top: 6px;
+      color: var(--sub);
+      font-size: 11px;
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .chk {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--card);
+      color: var(--ink);
+      font-size: 13.5px;
+      text-align: left;
+      cursor: pointer;
+      user-select: none;
+      transition:
+        background 0.15s,
+        border-color 0.15s,
+        transform 0.15s;
+    }
+
+    .chk:hover {
+      transform: translateY(-1px);
+    }
+
+    .chk:focus-visible {
+      outline: 3px solid rgba(107, 143, 113, 0.25);
+      outline-offset: 2px;
+    }
+
+    .chk .box {
+      display: flex;
+      flex: 0 0 auto;
+      align-items: center;
+      justify-content: center;
+      width: 17px;
+      height: 17px;
+      border: 2px solid var(--line);
+      border-radius: 5px;
+      color: #fff;
+      font-size: 11px;
+    }
+
+    .chk .label {
+      min-width: 0;
+      line-height: 1.35;
+    }
+
+    .chk.done {
+      border-color: #cfe3d0;
+      background: #f1f7f1;
+    }
+
+    .chk.done .box {
+      border-color: var(--green);
+      background: var(--green);
+    }
+
+    .chk.done .label {
+      color: var(--sub);
+      text-decoration: line-through;
+    }
+
+    .region-group {
+      margin-bottom: 14px;
+    }
+
+    .region-group h4 {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin: 0 0 8px;
+      color: var(--coral);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .spot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 7px;
+      padding: 10px 13px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--card);
+    }
+
+    .spot .left {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .spot .tag {
+      flex: 0 0 auto;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: var(--paper);
+      color: var(--sub);
+      font-size: 10.5px;
+      font-weight: 700;
+    }
+
+    .spot .name {
+      min-width: 0;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    .spot .name a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .spot .name a:hover {
+      text-decoration: underline;
+    }
+
+    .spot .hours {
+      flex: 0 0 auto;
+      color: var(--sub);
+      font-size: 11.5px;
+      white-space: nowrap;
+    }
+
+    footer {
+      padding: 30px 70px 40px 16px;
+      color: var(--sub);
+      font-size: 11.5px;
+      text-align: center;
+    }
+
+    .home-btn {
+      position: fixed;
+      right: 20px;
+      bottom: calc(20px + env(safe-area-inset-bottom));
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--coral);
+      color: #fff;
+      font-size: 23px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);
+      transition:
+        transform 0.15s,
+        box-shadow 0.15s;
+    }
+
+    .home-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+    }
+
+    .home-btn:active {
+      transform: scale(0.96);
+    }
+
+    .home-btn:focus-visible {
+      outline: 3px solid rgba(255, 107, 74, 0.35);
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 420px) {
+      .hero {
+        padding: 32px 18px 46px;
+      }
+
+      .hero h1 {
+        font-size: 27px;
+      }
+
+      .hero .datebar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .checklist {
+        grid-template-columns: 1fr;
+      }
+
+      .spot {
+        align-items: flex-start;
+      }
+
+      .spot .hours {
+        padding-top: 2px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <header class="hero">
+    <div class="eyebrow">Hong Kong Trip</div>
 
-<div class="hero">
-  <div class="eyebrow">Hong Kong Trip</div>
-  <h1>2026년 여름,<br>홍콩 여행</h1>
-  <p class="sub">08.01(토) – 08.03(월) · 2박 3일</p>
-  <div class="datebar">
-    <span>✈️ UO607 · UO626</span>
-    <span>🛌 실카 취엔완, 홍콩</span>
-  </div>
-</div>
+    <h1>
+      2026년 여름,<br>
+      홍콩 여행
+    </h1>
 
-<div class="tabs" id="tabs">
-  <div class="tab active" data-day="1">1일차<span class="d">08.01 토</span></div>
-  <div class="tab" data-day="2">2일차<span class="d">08.02 일</span></div>
-  <div class="tab" data-day="3">3일차<span class="d">08.03 월</span></div>
-</div>
+    <p class="sub">08.01(토) – 08.03(월) · 2박 3일</p>
 
-<main>
-
-  <div class="day-panel active" id="day-1">
-    <div class="day-title"><h2>1일차 · 출국 & 입국</h2><span>08.01 토</span></div>
-    <div class="timeline">
-      <div class="item transport">
-        <div class="time">07:45 – 10:20</div>
-        <div class="card"><div class="row"><div class="icon">✈️</div><div>
-          <div class="title">부산(김해) → 홍콩(T1)</div>
-          <div class="detail">홍콩 익스프레스항공 UO607</div>
-        </div></div></div>
-      </div>
-      <div class="item transport">
-        <div class="time">약 11:30</div>
-        <div class="card"><div class="row"><div class="icon">🚌</div><div>
-          <div class="title">공항에서 시내 및 호텔로 이동</div>
-          <div class="detail">옥토퍼스, 트레블로그 사용 추천</div>
-        </div></div></div>
-      </div>
-      <div class="item stay">
-        <div class="time">오후</div>
-        <div class="card"><div class="row"><div class="icon">🏨</div><div>
-          <div class="title">호텔 체크인</div>
-          <div class="detail">실카 취엔완, 홍콩 (荃灣絲麗酒店)</div>
-          <a href="https://maps.app.goo.gl/Dd4dQuCEP3SWS37T6" target="_blank" class="map-link">
-		     📍 지도 보기
-		  </a>
-        </div></div></div>
-      </div>
-      <div class="item food">
-        <div class="time">-</div>
-        <div class="card"><div class="row"><div class="icon">🍽️</div><div>
-          <div class="title">점심 및 저녁 식사</div>
-          <div class="detail">미정</div>
-        </div></div></div>
-      </div>
+    <div class="datebar">
+      <span>✈️ UO607 · UO626</span>
+      <span>🛌 실카 취엔완, 홍콩</span>
     </div>
-  </div>
+  </header>
 
-  <div class="day-panel" id="day-2">
-    <div class="day-title"><h2>2일차 · 홍콩 관광</h2><span>08.02 일</span></div>
-    <div class="timeline">
-      <div class="item">
-        <div class="time">오전</div>
-        <div class="card"><div class="row"><div class="icon">⛰️</div><div>
-          <div class="title">미정</div>
-        </div></div></div>
+  <nav class="tabs" id="tabs" aria-label="여행 일정 날짜 선택">
+    <button
+      type="button"
+      class="tab active"
+      data-day="1"
+      aria-controls="day-1"
+      aria-selected="true"
+    >
+      1일차
+      <span class="d">08.01 토</span>
+    </button>
+
+    <button
+      type="button"
+      class="tab"
+      data-day="2"
+      aria-controls="day-2"
+      aria-selected="false"
+    >
+      2일차
+      <span class="d">08.02 일</span>
+    </button>
+
+    <button
+      type="button"
+      class="tab"
+      data-day="3"
+      aria-controls="day-3"
+      aria-selected="false"
+    >
+      3일차
+      <span class="d">08.03 월</span>
+    </button>
+  </nav>
+
+  <main>
+    <!-- 1일차 -->
+    <section class="day-panel active" id="day-1">
+      <div class="day-title">
+        <h2>1일차 · 출국 &amp; 입국</h2>
+        <span>08.01 토</span>
       </div>
-      
-      <div class="item food">
-        <div class="time">약 12:00</div>
-        <div class="card"><div class="row"><div class="icon">🍽️</div><div>
-          <div class="title">점심 식사</div>
-          <div class="detail">미정</div>
-        </div></div></div>
+
+      <div class="timeline">
+        <article class="item transport">
+          <div class="time">07:45 – 10:20</div>
+
+          <div class="card">
+            <div class="row">
+              <div class="icon" aria-hidden="true">✈️</div>
+
+              <div>
+                <div class="title">부산(김해) → 홍콩(T1)</div>
+                <div class="detail">홍콩 익스프레스항공 UO607</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="item transport">
+          <div class="time">약 11:30</div>
+
+          <div class="card">
+            <div class="row">
+              <div class="icon" aria-hidden="true">🚌</div>
+
+              <div>
+                <div class="title">공항에서 시내 및 호텔로 이동</div>
+                <div class="detail">옥토퍼스, 트래블로그 사용 추천</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="item stay">
+          <div class="time">오후</div>
+
+          <div class="card">
+            <div class="row">
+              <div class="icon" aria-hidden="true">🏨</div>
+
+              <div>
+                <div class="title">호텔 체크인</div>
+                <div class="detail">실카 취엔완, 홍콩 (荃灣絲麗酒店)</div>
+
+                <a
+                  href="https://maps.app.goo.gl/Dd4dQuCEP3SWS37T6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="map-link"
+                >
+                  📍 지도 보기
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="item food">
+          <div class="time">-</div>
+
+          <div class="card">
+            <div class="row">
+              <div class="icon" aria-hidden="true">🍽️</div>
+
+              <div>
+                <div class="title">점심 및 저녁 식사</div>
+                <div class="detail">미정</div>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
-            
-      <div class="item">
-        <div class="time">오후</div>
-        <div class="card"><div class="row"><div class="icon">⛰️</div><div>
-          <div class="title">미정</div>
-        </div></div></div>
+    </section>
+
+    <!-- 2일차 -->
+    <section class="day-panel" id="day-2" hidden>
+      <div class="day-title">
+        <h2>2일차 · 홍콩 관광</h2>
+        <span>08.02 일</span>
       </div>
-      
-      <div class="item food">
-        <div class="time">약 18:00</div>
-        <div class="card"><div class="row"><div class="icon">🍽️</div><div>
-          <div class="title">저녁 식사</div>
-          <div class="detail">미정</div>
-        </div></div></div>
+
+      <div class="timeline">
+        <article class="item">
+          <div class="time">오전</div>
+
+          <div class="card">
+            <div class="row">
+              <div class="icon" aria-hidden="true">⛰️</div>
+
+              <div>
+                <div class="title">미정</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="item food">
+          <div class="time">약 12:00</div>
+
+          <div class="card">
+            <div class="row">
+              <div class="icon" aria-hidden="true">🍽️</div>
+
+              <div>
+                <div class="title">점심 식사</div>
+                <div class="detail">미정</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="item">
+          <div class="time">오후</div>
+
+          <div class="card">
+            <div class="row">
+              <div class="icon" aria-hidden="true">⛰️</div>
+
+              <div>
+                <div class="title">미정</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="item food">
+          <div class="time">약 18:00</div>
+
+          <div class="card">
+            <div class="row">
+              <div class="icon" aria-hidden="true">🍽️</div>
+
+              <div>
+                <div class="title">저녁 식사</div>
+                <div class="detail">미정</div>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
-            
-    </div>
-  </div>
+    </section>
 
-  <div class="day-panel" id="day-3">
-    <div class="day-title"><h2>3일차 · 귀국</h2><span>08.03 월</span></div>
-    <div class="timeline">
-      <div class="item stay">
-        <div class="time">오전</div>
-        <div class="card"><div class="row"><div class="icon">🧳</div><div>
-          <div class="title">체크아웃 및 기념품 쇼핑</div>
-        </div></div></div>
+    <!-- 3일차 -->
+    <section class="day-panel" id="day-3" hidden>
+      <div class="day-title">
+        <h2>3일차 · 귀국</h2>
+        <span>08.03 월</span>
       </div>
-      <div class="item transport">
-        <div class="time">16:55 – 21:35</div>
-        <div class="card"><div class="row"><div class="icon">✈️</div><div>
-          <div class="title">홍콩 → 부산(김해)</div>
-          <div class="detail">홍콩 익스프레스항공 UO626</div>
-        </div></div></div>
+
+      <div class="timeline">
+        <article class="item stay">
+          <div class="time">오전</div>
+
+          <div class="card">
+            <div class="row">
+              <div class="icon" aria-hidden="true">🧳</div>
+
+              <div>
+                <div class="title">체크아웃 및 기념품 쇼핑</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="item transport">
+          <div class="time">16:55 – 21:35</div>
+
+          <div class="card">
+            <div class="row">
+              <div class="icon" aria-hidden="true">✈️</div>
+
+              <div>
+                <div class="title">홍콩 → 부산(김해)</div>
+                <div class="detail">홍콩 익스프레스항공 UO626</div>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
-    </div>
-  </div>
-  
-  <!-- BUDGET -->
-  <section class="block">
-    <h3>💰 예산</h3>
-    <div class="budget-card">
-      <div class="budget-row"><span class="label">항공권</span><span class="val">423,900원</span></div>
-      <div class="budget-row"><span class="label">호텔</span><span class="val">105,661원</span></div>
-      <div class="budget-total">
-        <span class="label">총액</span>
-        <span class="val">529,561원</span>
+    </section>
+
+    <!-- 예산 -->
+    <section class="block">
+      <h3>💰 예산</h3>
+
+      <div class="budget-card">
+        <div class="budget-row">
+          <span class="label">항공권</span>
+          <span class="val">423,900원</span>
+        </div>
+
+        <div class="budget-row">
+          <span class="label">호텔</span>
+          <span class="val">105,661원</span>
+        </div>
+
+        <div class="budget-total">
+          <span class="label">총액</span>
+          <span class="val">529,561원</span>
+        </div>
+
+        <div class="rate-note">
+          참고 환율 100 HKD = 19,275원 기준
+        </div>
       </div>
-      <div class="rate-note">참고 환율 100(HKD) = 19,275원 기준</div>
-    </div>
-  </section>
+    </section>
 
-  <section class="block">
-    <h3>🧳 준비물</h3>
-    <div class="checklist" id="checklist">
-      <div class="chk"><div class="box"></div><span class="label">여권</span></div>
-      <div class="chk"><div class="box"></div><span class="label">보조배터리 & 충전기</span></div>
-      <div class="chk"><div class="box"></div><span class="label">변환 어댑터</span></div>
-      <div class="chk"><div class="box"></div><span class="label">트래블로그 (HSBC ATM)</span></div>
-      <div class="chk"><div class="box"></div><span class="label">eSIM</span></div>
-      <div class="chk"><div class="box"></div><span class="label">접이식 우산</span></div>
-      <div class="chk"><div class="box"></div><span class="label">변환기</span></div>
-    </div>
-  </section>
+    <!-- 준비물 -->
+    <section class="block">
+      <h3>🧳 준비물</h3>
 
-  <section class="block">
-    <h3>📍 관광지 및 음식 리스트</h3>
+      <div class="checklist" id="checklist">
+        <button type="button" class="chk" data-item="passport">
+          <span class="box" aria-hidden="true"></span>
+          <span class="label">여권</span>
+        </button>
 
-    <div class="region-group">
-      <h4>추천 관광지</h4>
-      <div class="spot"><div class="left"><span class="tag">관광지</span><span class="name">피크트램 (The Peak Tram)</span></div><span class="hours">야경 추천</span></div>
-    </div>
+        <button type="button" class="chk" data-item="battery">
+          <span class="box" aria-hidden="true"></span>
+          <span class="label">보조배터리 &amp; 충전기</span>
+        </button>
 
-    <div class="region-group">
-      <h4>필수 맛집 리스트</h4>
-      <div class="spot"><div class="left"><span class="tag">음식</span><span class="name">딤섬 (Dim Sum)</span></div><span class="hours">전통 요리</span></div>
-      <div class="spot"><div class="left"><span class="tag">음식</span><span class="name">완탕면 (Wonton Noodles)</span></div><span class="hours">대중적 면요리</span></div>
-      <div class="spot"><div class="left"><span class="tag">간식</span><span class="name">에그타르트 (Egg Tart)</span></div><span class="hours">포르투갈·영국 영향</span></div>
-      <div class="spot"><div class="left"><span class="tag">음식</span><span class="name">로스트구스 (Roast Goose)</span></div><span class="hours">거위 구이</span></div>
-      <div class="spot"><div class="left"><span class="tag">음식</span><span class="name">밀크티 (Milk Tea)</span></div><span class="hours">홍콩식 스타킹 밀크티</span></div>
-    </div>
-    
-    <div class="region-group">
-      <h4>참고 링크</h4>
-      <div class="spot"><div class="left"><span class="tag">블로그</span><span class="name"><a href="https://blog.naver.com/rainaje0810/224160594826" target="_blank" style="color: inherit; text-decoration: none;">홍콩 교통 카드 정보 및 결제 방법</a></span></div><span class="hours">Tip</span></div>
-    </div>
-  </section>
+        <button type="button" class="chk" data-item="adapter">
+          <span class="box" aria-hidden="true"></span>
+          <span class="label">변환 어댑터</span>
+        </button>
 
-</main>
+        <button type="button" class="chk" data-item="travel-card">
+          <span class="box" aria-hidden="true"></span>
+          <span class="label">트래블로그 (HSBC ATM)</span>
+        </button>
 
-<footer>2026년 여름 홍콩 여행 일정</footer>
+        <button type="button" class="chk" data-item="esim">
+          <span class="box" aria-hidden="true"></span>
+          <span class="label">eSIM</span>
+        </button>
 
-<script>
-const tabs = document.querySelectorAll('.tab');
-const panels = document.querySelectorAll('.day-panel');
-tabs.forEach(tab=>{
-  tab.addEventListener('click', ()=>{
-    tabs.forEach(t=>t.classList.remove('active'));
-    tab.classList.add('active');
-    panels.forEach(p=>p.classList.remove('active'));
-    document.getElementById('day-'+tab.dataset.day).classList.add('active');
-  });
-});
-document.querySelectorAll('.chk').forEach(chk=>{
-  chk.addEventListener('click', ()=>{
-    chk.classList.toggle('done');
-    chk.querySelector('.box').textContent = chk.classList.contains('done') ? '✓' : '';
-  });
-});
-</script>
+        <button type="button" class="chk" data-item="umbrella">
+          <span class="box" aria-hidden="true"></span>
+          <span class="label">접이식 우산</span>
+        </button>
 
-<a href="https://byeonsh.synology.me:8282" class="home-btn" aria-label="메인 페이지로 이동">🏠</a>
+        <button type="button" class="chk" data-item="converter">
+          <span class="box" aria-hidden="true"></span>
+          <span class="label">변환기</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 관광지 및 음식 -->
+    <section class="block">
+      <h3>📍 관광지 및 음식 리스트</h3>
+
+      <div class="region-group">
+        <h4>추천 관광지</h4>
+
+        <div class="spot">
+          <div class="left">
+            <span class="tag">관광지</span>
+            <span class="name">피크트램 (The Peak Tram)</span>
+          </div>
+
+          <span class="hours">야경 추천</span>
+        </div>
+      </div>
+
+      <div class="region-group">
+        <h4>필수 맛집 리스트</h4>
+
+        <div class="spot">
+          <div class="left">
+            <span class="tag">음식</span>
+            <span class="name">딤섬 (Dim Sum)</span>
+          </div>
+
+          <span class="hours">전통 요리</span>
+        </div>
+
+        <div class="spot">
+          <div class="left">
+            <span class="tag">음식</span>
+            <span class="name">완탕면 (Wonton Noodles)</span>
+          </div>
+
+          <span class="hours">대중적 면요리</span>
+        </div>
+
+        <div class="spot">
+          <div class="left">
+            <span class="tag">간식</span>
+            <span class="name">에그타르트 (Egg Tart)</span>
+          </div>
+
+          <span class="hours">포르투갈·영국 영향</span>
+        </div>
+
+        <div class="spot">
+          <div class="left">
+            <span class="tag">음식</span>
+            <span class="name">로스트구스 (Roast Goose)</span>
+          </div>
+
+          <span class="hours">거위 구이</span>
+        </div>
+
+        <div class="spot">
+          <div class="left">
+            <span class="tag">음료</span>
+            <span class="name">밀크티 (Milk Tea)</span>
+          </div>
+
+          <span class="hours">홍콩식 밀크티</span>
+        </div>
+      </div>
+
+      <div class="region-group">
+        <h4>참고 링크</h4>
+
+        <div class="spot">
+          <div class="left">
+            <span class="tag">블로그</span>
+
+            <span class="name">
+              <a
+                href="https://blog.naver.com/rainaje0810/224160594826"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                홍콩 교통 카드 정보 및 결제 방법
+              </a>
+            </span>
+          </div>
+
+          <span class="hours">Tip</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    2026년 여름 홍콩 여행 일정
+  </footer>
+
+  <a
+    href="https://byeonsh.synology.me:8282"
+    class="home-btn"
+    aria-label="메인 페이지로 이동"
+  >
+    🏠
+  </a>
+
+  <script>
+    const tabs = document.querySelectorAll(".tab");
+    const panels = document.querySelectorAll(".day-panel");
+    const checklistItems = document.querySelectorAll(".chk");
+
+    const CHECKLIST_STORAGE_KEY = "hongkong-trip-checklist-2026";
+
+    function activateDay(selectedTab) {
+      const selectedDay = selectedTab.dataset.day;
+      const selectedPanel = document.getElementById(`day-${selectedDay}`);
+
+      tabs.forEach((tab) => {
+        const isActive = tab === selectedTab;
+
+        tab.classList.toggle("active", isActive);
+        tab.setAttribute("aria-selected", String(isActive));
+      });
+
+      panels.forEach((panel) => {
+        const isActive = panel === selectedPanel;
+
+        panel.classList.toggle("active", isActive);
+        panel.hidden = !isActive;
+      });
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        activateDay(tab);
+      });
+    });
+
+    function getSavedChecklist() {
+      try {
+        const savedData = localStorage.getItem(CHECKLIST_STORAGE_KEY);
+
+        return savedData ? JSON.parse(savedData) : {};
+      } catch (error) {
+        console.error("체크리스트를 불러오지 못했습니다.", error);
+        return {};
+      }
+    }
+
+    function saveChecklist() {
+      const checklistState = {};
+
+      checklistItems.forEach((item) => {
+        checklistState[item.dataset.item] =
+          item.classList.contains("done");
+      });
+
+      try {
+        localStorage.setItem(
+          CHECKLIST_STORAGE_KEY,
+          JSON.stringify(checklistState)
+        );
+      } catch (error) {
+        console.error("체크리스트를 저장하지 못했습니다.", error);
+      }
+    }
+
+    function updateChecklistItem(item, isDone) {
+      const checkbox = item.querySelector(".box");
+
+      item.classList.toggle("done", isDone);
+      item.setAttribute("aria-pressed", String(isDone));
+      checkbox.textContent = isDone ? "✓" : "";
+    }
+
+    const savedChecklist = getSavedChecklist();
+
+    checklistItems.forEach((item) => {
+      const itemKey = item.dataset.item;
+      const isDone = Boolean(savedChecklist[itemKey]);
+
+      updateChecklistItem(item, isDone);
+
+      item.addEventListener("click", () => {
+        const nextState = !item.classList.contains("done");
+
+        updateChecklistItem(item, nextState);
+        saveChecklist();
+      });
+    });
+  </script>
 </body>
 </html>
