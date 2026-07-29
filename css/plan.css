@@ -1,4 +1,5 @@
-@font-face{
+
+    @font-face{
   font-family:'Pretendard';
   src:url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/woff2/PretendardVariable.woff2') format('woff2-variations');
   font-weight:45 920;
@@ -250,6 +251,26 @@ footer{
 .map-link:hover {
     background: #dfefff;
     text-decoration: underline;
+}
+
+
+/* 관광지·맛집 목록 전체를 누르면 지도 검색 */
+.spot{gap:10px;}
+.spot .left{min-width:0;flex:1;flex-wrap:wrap;}
+.spot .hours{flex:0 1 auto;text-align:right;}
+.spot.map-clickable{
+  cursor:pointer;
+  transition:transform .15s ease, background .15s ease, border-color .15s ease;
+}
+.spot.map-clickable:hover{background:#F4F6FA;border-color:#BCC6D8;}
+.spot.map-clickable:active{transform:scale(.99);}
+.spot.map-clickable:focus-visible{
+  outline:3px solid rgba(31,42,68,.25);
+  outline-offset:2px;
+}
+@media (max-width:440px){
+  .spot{align-items:flex-start;flex-wrap:wrap;}
+  .spot .hours{order:3;width:100%;text-align:left;}
 }
 
 .home-btn{
