@@ -254,10 +254,74 @@ footer{
 }
 
 
-/* 관광지·맛집 목록 전체를 누르면 지도 검색 */
-.spot{gap:10px;}
-.spot .left{min-width:0;flex:1;flex-wrap:wrap;}
-.spot .hours{flex:0 1 auto;text-align:right;}
+/* 관광지·맛집 카드: 왼쪽 위 카테고리·이름 / 왼쪽 아래 설명 / 오른쪽 영업시간 */
+.spot{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:12px;
+  align-items:center;
+  min-height:74px;
+  padding:11px 13px;
+}
+.spot .left{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:5px;
+}
+.spot .spot-heading{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  flex-wrap:wrap;
+}
+.spot .tag{
+  flex:0 0 auto;
+  font-size:10.5px;
+  line-height:1;
+  padding:4px 7px;
+  border-radius:999px;
+  font-weight:700;
+  background:var(--paper);
+  color:var(--sub);
+}
+.spot .name{
+  min-width:0;
+  font-size:14px;
+  line-height:1.35;
+  font-weight:700;
+  color:var(--ink);
+  word-break:keep-all;
+}
+.spot .description{
+  font-size:12px;
+  line-height:1.45;
+  color:var(--sub);
+  word-break:keep-all;
+}
+.spot .hours-box{
+  min-width:78px;
+  padding-left:12px;
+  border-left:1px solid var(--line);
+  text-align:right;
+}
+.spot .hours-label{
+  display:block;
+  margin-bottom:3px;
+  font-size:9.5px;
+  font-weight:700;
+  color:#A09A8D;
+}
+.spot .hours{
+  display:block;
+  font-size:11.5px;
+  line-height:1.35;
+  font-weight:700;
+  color:var(--navy);
+  white-space:nowrap;
+}
 .spot.map-clickable{
   cursor:pointer;
   transition:transform .15s ease, background .15s ease, border-color .15s ease;
@@ -269,8 +333,9 @@ footer{
   outline-offset:2px;
 }
 @media (max-width:440px){
-  .spot{align-items:flex-start;flex-wrap:wrap;}
-  .spot .hours{order:3;width:100%;text-align:left;}
+  .spot{gap:8px;}
+  .spot .hours-box{min-width:68px;padding-left:9px;}
+  .spot .hours{font-size:10.8px;}
 }
 
 .home-btn{
@@ -293,4 +358,42 @@ footer{
 }
 .home-btn:active{
   transform:scale(.96);
+}
+
+  
+
+/* 참고 링크 전용: 카테고리, 링크 제목, Tip을 한 줄로 표시 */
+.reference-links .reference-link-item{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-height:auto;
+  padding:10px 13px;
+}
+.reference-links .reference-link-item .left{
+  min-width:0;
+  flex:1;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:9px;
+}
+.reference-links .reference-link-item .name{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.reference-links .reference-link-item .name a{
+  color:var(--navy);
+  text-decoration:none;
+}
+.reference-links .reference-link-item .name a:hover{
+  text-decoration:underline;
+}
+.reference-links .reference-link-item > .hours{
+  flex:0 0 auto;
+  font-size:11.5px;
+  color:var(--sub);
+  white-space:nowrap;
 }
