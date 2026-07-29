@@ -28,6 +28,7 @@
     rel="stylesheet"
   >
 
+
 </head>
 
 <body>
@@ -417,7 +418,7 @@
         <div class="spot">
           <div class="left">
             <span class="tag">홍콩섬</span>
-            <span class="name">셩완의 거리</span>
+            <span class="name">셩완</span>
           </div>
 
           <span class="hours">홍콩 감성과 벽화, 전통상점</span>
@@ -471,7 +472,7 @@
         <div class="spot">
           <div class="left">
             <span class="tag">기타</span>
-            <span class="name">구룡성채 공원</span>
+            <span class="name">구룡채성 공원</span>
           </div>
 
           <span class="hours">구룡성채 터에 조성된 공원</span>
@@ -493,47 +494,75 @@
         <div class="spot">
           <div class="left">
             <span class="tag">음식</span>
-            <span class="name">딤섬</span>
+            <span class="name">침차이키</span>
           </div>
 
-          <span class="hours">전통 요리</span>
+          <span class="hours">완탕면</span>
+        </div>   
+        
+        <div class="spot">
+          <div class="left">
+            <span class="tag">음식</span>
+            <span class="name">호흥키</span>
+          </div>
+
+          <span class="hours">미슐랭1 완탕면</span>
+        </div>          
+
+        <div class="spot">
+          <div class="left">
+            <span class="tag">음식</span>
+            <span class="name">원딤섬</span>
+          </div>
+
+          <span class="hours">딤섬</span>
         </div>
 
         <div class="spot">
           <div class="left">
             <span class="tag">음식</span>
-            <span class="name">완탕면</span>
+            <span class="name">蘭芳園 尖沙咀店(란퐁유엔)</span>
           </div>
 
-          <span class="hours">대중적 면요리</span>
+          <span class="hours">토스트</span>
         </div>
 
         <div class="spot">
           <div class="left">
             <span class="tag">간식</span>
-            <span class="name">에그타르트</span>
+            <span class="name">Ohlalagout</span>
           </div>
 
-          <span class="hours">포르투갈·영국 영향</span>
+          <span class="hours">에그타르트</span>
         </div>
 
         <div class="spot">
           <div class="left">
-            <span class="tag">음식</span>
-            <span class="name">로스트구스</span>
+            <span class="tag">간식</span>
+            <span class="name">베이크하우스</span>
           </div>
 
-          <span class="hours">거위 구이</span>
-        </div>
+          <span class="hours">에그타르트</span>
+        </div>      
+        
+        <div class="spot">
+          <div class="left">
+            <span class="tag">간식</span>
+            <span class="name">타이청베이커리</span>
+          </div>
+
+          <span class="hours">에그타르트</span>
+        </div>           
 
         <div class="spot">
           <div class="left">
-            <span class="tag">음료</span>
-            <span class="name">밀크티</span>
+            <span class="tag">간식</span>
+            <span class="name">暖心芝作(Heartwarming)</span>
           </div>
 
-          <span class="hours">홍콩식 밀크티</span>
-        </div>
+          <span class="hours">검은 참깨 아이스크림</span>
+        </div>        
+
       </div>
 
       <div class="region-group">
@@ -578,6 +607,38 @@
     const checklistItems = document.querySelectorAll(".chk");
 
     const CHECKLIST_STORAGE_KEY = "hongkong-trip-checklist-2026";
+
+    // 추천 관광지·필수 맛집 목록 전체를 누르면 Google 지도 검색 열기
+    document.querySelectorAll(".region-group").forEach((group) => {
+      const heading = group.querySelector("h4")?.textContent.trim();
+      const isTourSpot = heading === "추천 관광지";
+      const isFoodSpot = heading === "필수 맛집 리스트";
+      if (!isTourSpot && !isFoodSpot) return;
+
+      group.querySelectorAll(".spot").forEach((spot) => {
+        const name = spot.querySelector(".name")?.textContent.trim();
+        if (!name) return;
+
+        const query = isFoodSpot ? `홍콩 ${name} 맛집` : `홍콩 ${name}`;
+        const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+
+        spot.classList.add("map-clickable");
+        spot.setAttribute("role", "link");
+        spot.setAttribute("tabindex", "0");
+        spot.setAttribute("aria-label", `${name} 지도에서 보기`);
+
+        const openMap = () => window.open(mapUrl, "_blank", "noopener,noreferrer");
+
+        spot.addEventListener("click", openMap);
+        spot.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openMap();
+          }
+        });
+      });
+    });
+
 
     function activateDay(selectedTab) {
       const selectedDay = selectedTab.dataset.day;
