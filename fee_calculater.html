@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0e17">
+<meta name="description" content="이적시장 수수료와 할인 적용 후 수령액을 계산하는 BSH 수수료 계산기">
+<title>BSH FEE CALC — 수수료 계산기</title>
+<link rel="icon" href="./image/calc.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#0a0e17;--surface:#121925;--surface2:#1a2331;--text:#f2f5f9;--muted:#97a4b5;--line:#293342;--accent:#b9f17b;--onaccent:#14210c;--glow:rgba(185,241,123,.09);--track:#283341;--shadow:0 22px 70px rgba(0,0,0,.23)}
+:root[data-theme=light]{color-scheme:light;--bg:#f5f7f3;--surface:#fff;--surface2:#f0f3ec;--text:#182126;--muted:#667582;--line:#dce4dc;--accent:#315c1b;--onaccent:#fff;--glow:rgba(65,103,28,.07);--track:#e2e9de;--shadow:0 22px 60px rgba(35,57,38,.07)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{min-width:320px;margin:0;background:var(--bg);color:var(--text);font-family:'DM Sans','Noto Sans KR',sans-serif;-webkit-font-smoothing:antialiased;transition:background .25s,color .25s}body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 55% 45% at 50% 3%,var(--glow),transparent 90%)}button,input{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px}a{color:inherit;text-decoration:none}.shell{width:min(1040px,calc(100% - 48px));margin:auto}
+header{height:86px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:15px}.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:14px;letter-spacing:-.03em}.logo{display:grid;place-items:center;width:40px;height:40px;border:1px solid var(--text);border-radius:12px;font-size:19px}.brand small{display:block;color:var(--muted);font-size:10px;font-weight:600;letter-spacing:.14em;margin-top:3px}.top-actions{display:flex;align-items:center;gap:15px}.top-actions a{font-size:12px;font-weight:700;color:var(--muted)}.theme-button{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:50px;color:var(--text);padding:10px 14px;font-size:12px;font-weight:700}
+.hero{padding:74px 0 38px}.eyebrow{font-size:11px;letter-spacing:.22em;color:var(--accent);font-weight:800;margin:0 0 19px}.hero h1{font-size:clamp(42px,6.5vw,76px);font-weight:800;letter-spacing:-.075em;line-height:1.08;margin:0}.hero h1 em{font-style:normal;color:var(--accent)}.hero-desc{color:var(--muted);line-height:1.85;font-size:14px;margin:21px 0 0;word-break:keep-all}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start;padding:10px 0 60px}.panel{background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}.panel-inner{padding:30px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:28px}.panel-title{font-size:18px;font-weight:800;letter-spacing:-.05em;margin:0}.panel-note{font-size:10px;letter-spacing:.13em;font-weight:800;color:var(--muted)}.field-label{display:block;font-size:13px;font-weight:700;margin-bottom:11px}.price-wrap{display:flex;align-items:center;border:1px solid var(--line);background:var(--surface2);border-radius:13px;padding:0 16px;height:68px;transition:border-color .2s}.price-wrap:focus-within{border-color:var(--accent)}#price{width:100%;border:0;outline:0;background:none;color:var(--text);font-size:30px;font-weight:800;letter-spacing:-.045em;min-width:0}#price::placeholder{color:var(--muted);opacity:.52}.suffix{color:var(--muted);font-weight:800;font-size:15px;margin-left:10px}.helper{min-height:23px;margin:10px 0 0;color:var(--muted);font-size:12px}.helper strong{color:var(--accent);font-weight:700}.subdivide{height:1px;background:var(--line);margin:26px 0}.discount-row{display:flex;align-items:center;justify-content:space-between}.discount-number{font-size:38px;font-weight:800;letter-spacing:-.05em;color:var(--accent)}.stepper{display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface2)}.stepper button{border:0;color:var(--text);background:transparent;width:44px;height:44px;font-size:22px}.stepper button+button{border-left:1px solid var(--line)}.stepper button:hover{background:var(--track)}.range{appearance:none;width:100%;height:6px;border-radius:9px;background:var(--track);margin:19px 0 8px;accent-color:var(--accent);cursor:pointer}.range::-webkit-slider-thumb{appearance:none;width:18px;height:18px;background:var(--accent);border:4px solid var(--surface);box-shadow:0 0 0 1px var(--accent);border-radius:50%}.range::-moz-range-thumb{width:12px;height:12px;background:var(--accent);border:3px solid var(--surface);box-shadow:0 0 0 1px var(--accent);border-radius:50%}.range-ticks{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}.toggle-list{display:grid;gap:10px}.toggle-item{display:flex;align-items:center;gap:14px;justify-content:space-between;padding:17px;border:1px solid var(--line);border-radius:13px;cursor:pointer;background:var(--surface2)}.toggle-name{font-size:13px;font-weight:800}.toggle-sub{display:block;color:var(--muted);font-size:11px;font-weight:500;margin-top:5px}.toggle-item input{position:absolute;opacity:0;width:1px;height:1px}.switch{width:42px;height:24px;flex:none;background:var(--track);border-radius:30px;position:relative;transition:background .2s}.switch:after{content:"";position:absolute;background:#fff;border-radius:100%;width:18px;height:18px;top:3px;left:3px;transition:transform .2s;box-shadow:0 1px 3px #0003}.toggle-item input:checked+.switch{background:var(--accent)}.toggle-item input:checked+.switch:after{transform:translateX(18px);background:var(--onaccent)}.toggle-item:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:3px}.main-button{background:var(--accent);color:var(--onaccent);width:100%;min-height:54px;border:0;border-radius:12px;margin-top:25px;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:12px;transition:transform .2s,filter .2s}.main-button:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.result-panel{position:sticky;top:20px}.result-top{padding:29px 30px 26px;background:linear-gradient(140deg,var(--surface2),var(--surface));border-bottom:1px solid var(--line)}.result-kicker{display:flex;gap:7px;align-items:center;font-size:11px;letter-spacing:.15em;font-weight:800;color:var(--muted)}.status-dot{width:7px;height:7px;background:var(--accent);border-radius:50%}.result-amount{font-size:clamp(29px,3.6vw,42px);font-weight:800;letter-spacing:-.055em;line-height:1.35;overflow-wrap:anywhere;margin:19px 0 5px;font-variant-numeric:tabular-nums}.result-detail{font-size:12px;color:var(--muted);margin:0}.result-body{padding:25px 30px 30px}.breakdown-title{margin:0 0 20px;font-size:13px;font-weight:800}.result-row{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin:0 0 17px;font-size:12px;color:var(--muted)}.result-row strong{font-weight:700;color:var(--text);text-align:right;overflow-wrap:anywhere;min-width:0;font-variant-numeric:tabular-nums}.result-row .plus{color:var(--accent)}.rule{border:0;border-top:1px solid var(--line);margin:23px 0}.final-row{font-size:15px;font-weight:800;color:var(--text);margin-bottom:0}.final-row strong{color:var(--accent);font-size:17px}.result-empty{color:var(--muted);font-size:13px;line-height:1.8;padding:9px 0}.details-note{margin:20px 0 0;color:var(--muted);font-size:11px;line-height:1.7}
+footer{border-top:1px solid var(--line);padding:25px 0 35px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-size:11px;color:var(--muted)}footer a:hover{color:var(--accent)}
+@media(max-width:760px){.workspace{grid-template-columns:1fr;gap:17px}.result-panel{position:static}.hero{padding:54px 0 30px}}@media(max-width:480px){.shell{width:calc(100% - 30px)}header{height:74px}.top-actions a{display:none}.hero h1{font-size:48px}.panel-inner,.result-top,.result-body{padding:22px}.result-amount{font-size:32px}.price-wrap{height:62px}#price{font-size:27px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header>
+  <a class="brand" href="#top" aria-label="수수료 계산기 맨 위로"><span class="logo">B.</span><span>BSH FEE CALC<small>BYEON SUNG HYUN</small></span></a>
+  <div class="top-actions"><a href="https://byeonsunghyun.github.io/bsh_hub/bshhub" rel="noopener noreferrer">PROJECT HUB ↗</a><button class="theme-button" id="themeToggle" type="button" aria-label="색상 테마 전환"><span aria-hidden="true">◐</span><span id="themeLabel">LIGHT MODE</span></button></div>
+</header>
+<main id="top">
+<section class="hero" aria-labelledby="heroTitle"><p class="eyebrow">A BETTER WAY TO CALCULATE / BSH</p><h1 id="heroTitle">Fee calculator<em>.</em></h1><p class="hero-desc">복잡한 수수료 계산은 간결하게.<br>원가와 할인 조건을 입력하면 최종 수령 금액을 바로 확인할 수 있습니다.</p></section>
+<div class="workspace">
+<section class="panel" aria-label="계산 조건 입력"><div class="panel-inner">
+  <div class="panel-head"><h2 class="panel-title">계산 조건</h2><span class="panel-note">01 / INPUT</span></div>
+  <label class="field-label" for="price">원가 입력</label>
+  <div class="price-wrap"><input id="price" type="text" inputmode="numeric" autocomplete="off" placeholder="0" aria-describedby="priceDisplay"><span class="suffix">억</span></div>
+  <p class="helper" id="priceDisplay">금액을 입력하면 실제 단위로 표시됩니다.</p>
+  <div class="subdivide"></div>
+  <label class="field-label" for="discountSlider">할인 쿠폰</label>
+  <div class="discount-row"><output class="discount-number" id="discountDisplay" for="discountSlider">30%</output><div class="stepper"><button type="button" id="discountDown" aria-label="할인율 5% 감소">−</button><button type="button" id="discountUp" aria-label="할인율 5% 증가">+</button></div></div>
+  <input id="discountSlider" class="range" type="range" min="0" max="50" step="5" value="30" aria-label="할인 쿠폰 비율"><div class="range-ticks"><span>0%</span><span>25%</span><span>50%</span></div>
+  <div class="subdivide"></div>
+  <p class="field-label">추가 할인</p>
+  <div class="toggle-list"><label class="toggle-item"><span><span class="toggle-name">PC방 할인</span><span class="toggle-sub">기본 수수료에서 30% 추가 감면</span></span><input type="checkbox" id="pcCheck"><span class="switch" aria-hidden="true"></span></label><label class="toggle-item"><span><span class="toggle-name">TOP CLASS</span><span class="toggle-sub">기본 수수료에서 20% 추가 감면</span></span><input type="checkbox" id="topClassCheck"><span class="switch" aria-hidden="true"></span></label></div>
+  <button id="calculateButton" class="main-button" type="button">수수료 계산하기 <span aria-hidden="true">↗</span></button>
+</div></section>
+<section class="panel result-panel" id="result" aria-live="polite" aria-label="계산 결과">
+  <div class="result-top"><div class="result-kicker"><span class="status-dot"></span> ESTIMATED RECEIPT</div><div class="result-amount" id="resultAmount">금액을 입력하세요</div><p class="result-detail" id="resultSub">할인 적용 후 예상 수령액</p></div>
+  <div class="result-body"><h2 class="breakdown-title">계산 내역 <span style="float:right;color:var(--muted);font-size:10px;letter-spacing:.12em">02 / RESULT</span></h2><div id="breakdown" class="result-empty">왼쪽에 원가를 입력하면 계산 내역이 표시됩니다.</div><p class="details-note">기본 수수료는 원가의 40%이며, 각 할인은 기본 수수료를 기준으로 합산합니다.</p></div>
+</section>
+</div>
+</main>
+<footer><span>© <span id="year"></span> Byeon Sung Hyun. All rights reserved.</span><a href="https://byeonsunghyun.github.io/bsh_hub/bshhub" rel="noopener noreferrer">BACK TO PROJECT HUB ↗</a></footer>
+</div>
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const root=document.documentElement;
+const store={get(key){try{return localStorage.getItem(key)}catch{return null}},set(key,val){try{localStorage.setItem(key,val)}catch{}}};
+const previous=store.get('bsh-fee-theme');
+const legacy=store.get('darkMode');
+root.dataset.theme=(previous==='dark'||previous==='light')?previous:(legacy===null?'dark':legacy==='true'?'dark':'light');
+function syncTheme(){const light=root.dataset.theme==='light';$('themeLabel').textContent=light?'DARK MODE':'LIGHT MODE';$('themeToggle').setAttribute('aria-label',light?'다크 모드로 전환':'라이트 모드로 전환');document.querySelector('meta[name="theme-color"]').content=light?'#f5f7f3':'#0a0e17'}
+$('themeToggle').addEventListener('click',()=>{root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';store.set('bsh-fee-theme',root.dataset.theme);syncTheme()});syncTheme();
+$('year').textContent=new Date().getFullYear();
+let discount=30;
+const MAX_EOK=1000000000000n;
+const UNIT=100000000n;
+const numberFmt=n=>n.toLocaleString('ko-KR');
+function unitFmt(num){if(num===0n)return '0원';const units=['원','만','억','조','경','해','자','양'];let n=num;let i=0;const out=[];while(n>0n){const part=n%10000n;if(part)out.unshift(`${numberFmt(part)}${units[i]||`×10^${i*4}원`}`);n/=10000n;i++}return out.join(' ')}
+function getEok(){const digits=$('price').value.replace(/\D/g,'');if(!digits)return null;let n=BigInt(digits);if(n>MAX_EOK)n=MAX_EOK;return n}
+function setDiscount(value){discount=Math.max(0,Math.min(50,Math.round(value/5)*5));$('discountDisplay').textContent=`${discount}%`;$('discountSlider').value=String(discount);render()}
+$('discountDown').addEventListener('click',()=>setDiscount(discount-5));$('discountUp').addEventListener('click',()=>setDiscount(discount+5));$('discountSlider').addEventListener('input',e=>setDiscount(Number(e.target.value)));
+$('pcCheck').addEventListener('change',render);$('topClassCheck').addEventListener('change',render);
+$('price').addEventListener('input',()=>{const n=getEok();$('price').value=n===null?'':numberFmt(n);$('priceDisplay').textContent=n===null?'금액을 입력하면 실제 단위로 표시됩니다.':unitFmt(n*UNIT);render()});
+$('calculateButton').addEventListener('click',()=>{const n=getEok();if(n===null||n<=0n){$('price').focus();$('resultAmount').textContent='원가를 입력하세요';return}render();$('result').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'})});
+function row(label,amount,cls=''){const div=document.createElement('div');div.className='result-row'+(cls==='final'?' final-row':'');const a=document.createElement('span');a.textContent=label;const b=document.createElement('strong');b.textContent=amount;if(cls==='plus')b.className='plus';div.append(a,b);return div}
+function render(){const eok=getEok();const content=$('breakdown');content.replaceChildren();if(eok===null||eok<=0n){$('resultAmount').textContent=eok===0n?'0원':'금액을 입력하세요';$('resultSub').textContent='할인 적용 후 예상 수령액';content.className='result-empty';content.textContent='원가를 입력하면 계산 내역이 표시됩니다.';return}
+content.className='';const price=eok*UNIT;const fee=price*40n/100n;const coupon=fee*BigInt(discount)/100n;const pc=$('pcCheck').checked?fee*30n/100n:0n;const top=$('topClassCheck').checked?fee*20n/100n:0n;const finalFee=fee-coupon-pc-top;const receive=price-finalFee;
+$('resultAmount').textContent=unitFmt(receive);$('resultSub').textContent=`원가 ${unitFmt(price)} 기준`;
+content.append(row('입력 원가',unitFmt(price)),row('기본 수수료 (40%)','− '+unitFmt(fee)),row(`쿠폰 할인 (${discount}%)`,'+ '+unitFmt(coupon),'plus'));
+if(pc)content.append(row('PC방 할인 (30%)','+ '+unitFmt(pc),'plus'));
+if(top)content.append(row('TOP CLASS (20%)','+ '+unitFmt(top),'plus'));
+const hr=document.createElement('hr');hr.className='rule';content.append(hr,row('최종 수수료',unitFmt(finalFee)),row('최종 수령액',unitFmt(receive),'final'));
+}
+render();
+})();
+</script>
+</body>
+</html>
